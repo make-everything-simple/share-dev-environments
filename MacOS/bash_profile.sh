@@ -1,4 +1,3 @@
-
 #==================General======================#
 alias showfiles="defaults write com.apple.finder AppleShowAllFiles true"
 alias hidefiles="defaults write com.apple.finder AppleShowAllFiles false"
@@ -25,8 +24,10 @@ lowercase() {
 alias install_sdkman="curl -s https://get.sdkman.io | bash"
 alias install_gpg="brew install gnupg gnupg2"
 alias install_nvm="brew install nvm"
-alias install_oh_my_zsh="sh -c $(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-alias install_default="brew search node"
+
+function install_oh_my_zsh() {
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+}
 
 function showInfo() {
   echo '==========================================='
@@ -40,6 +41,7 @@ function showInfo() {
 }
 
 function installTools() {
+    echo '==========================================='
     echo 'Which tools do you want install (S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh?'
     read name
   
@@ -54,6 +56,7 @@ function installTools() {
     else
         echo 'please check your input to install'
     fi
+    echo '==========================================='
 }
 
 ###-tns-completion-start-###
