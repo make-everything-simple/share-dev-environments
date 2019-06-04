@@ -1,4 +1,14 @@
-#==================General======================#
+#==============================================#
+# Default commands
+#==============================================#
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH="/usr/local/Cellar:$PATH"
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+
+#==============================================#
+# General commands
+#==============================================#
 alias showfiles="defaults write com.apple.finder AppleShowAllFiles true"
 alias hidefiles="defaults write com.apple.finder AppleShowAllFiles false"
 alias killfiles="killall Finder"
@@ -20,7 +30,9 @@ lowercase() {
     echo $1 | tr [:upper:] [:lower:]
 }
 
-#==================install devtools======================#
+#==============================================#
+# install develement tools
+#==============================================#
 alias install_sdkman="curl -s https://get.sdkman.io | bash"
 alias install_gpg="brew install gnupg gnupg2"
 alias install_nvm="brew install nvm"
@@ -59,6 +71,9 @@ function installTools() {
     echo '==========================================='
 }
 
+#==============================================#
+# Trigger other scripts run to activate tools
+#==============================================#
 ###-tns-completion-start-###
 if [ -f $HOME/.tnsrc ]; then 
     source $HOME/.tnsrc 
