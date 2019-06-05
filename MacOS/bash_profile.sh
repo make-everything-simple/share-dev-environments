@@ -31,6 +31,14 @@ lowercase() {
 }
 
 #==============================================#
+# info port, process
+#==============================================#
+pidport() {
+ lsof -n -i4TCP:$1 | grep LISTEN
+}
+alias pidkill="kill -9 $1"
+
+#==============================================#
 # install develement tools
 #==============================================#
 alias install_sdkman="curl -s https://get.sdkman.io | bash"
