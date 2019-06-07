@@ -112,6 +112,35 @@ startEmulator() {
   emulator -avd $1
 }
 
+#==============================================#
+# gpg keys to sign commit, tag...
+#==============================================#
+alias gpgKeys='gpg --list-secret-keys --keyid-format LONG'
+alias gpgGen='gpg --full-generate-key'
+alias gpgGenOld='gpg --default-new-key-algo rsa4096 --gen-key'
+alias gpgAddToGlobal='git config --global user.signingkey $1 && git config --global commit.gpgsign true'
+alias gpgAddToLocal='git config --local user.signingkey $1 && git config --local commit.gpgsign true'
+alias gpgPublicKey='gpg --armor --export GPG key $1'
+
+function gpgEdit() {
+  gpg --edit-key GPG key $1
+  echo '$ gpg> adduid: to add the user ID details'
+}
+
+function gpgUpdatePath() {
+  test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
+  echo 'export GPG_TTY=$(tty)' >> ~/.profile
+}
+
+function gpgCLIs() {
+  echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
+  echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
+  echo '$ gpgEdit: associating an email with your GPG key'
+  echo '$ gpgPublicKey KEY_ID: get public key to add to github or receiver to verify signing'
+  echo '$ gpgUpdatePath: update environment on shell to use GPG key'
+  echo '$ gpgAddToGlobal KEY_ID: add KEY_ID to sign on config global of git'
+  echo '$ gpgAddToLocal KEY_ID: add KEY_ID to sign on config local of git'
+}
 
 #==============================================#
 # Trigger other scripts run to activate tools
