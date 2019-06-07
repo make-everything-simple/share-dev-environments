@@ -121,6 +121,10 @@ alias gpgGenOld='gpg --default-new-key-algo rsa4096 --gen-key'
 alias gpgAddToGlobal='git config --global user.signingkey $1 && git config --global commit.gpgsign true'
 alias gpgAddToLocal='git config --local user.signingkey $1 && git config --local commit.gpgsign true'
 alias gpgPublicKey='gpg --armor --export GPG key $1'
+alias gpgSignCommit='GIT_TRACE=1 git commit -S -m $1'
+alias gpgGrantPermissionUser='sudo chown -R $1 ~$1/.gnupg'
+alias gpgCheckSign='sudo echo "Is commit message signed?" | gpg --clearsign'
+align gpgIsEnable='git config -l | grep gpg'
 
 function gpgEdit() {
   gpg --edit-key GPG key $1
@@ -132,6 +136,14 @@ function gpgUpdatePath() {
   echo 'export GPG_TTY=$(tty)' >> ~/.profile
 }
 
+function gpgTroubleShoot() {
+  echo '$ gpgSignCommit [message]: sign commit with trace the error'
+  echo '$ gpgGrantPermissionUser [user]: allow user can run the gpg command'
+  echo '$ gpgCheckSign: check wether sign or not'
+  echo '$ export GPG_TTY=$(tty): if we saw the error Inappropriate ioctl for device'
+  echo '$ gpgIsEnable: check to know whether enable sign or not'
+}
+
 function gpgCLIs() {
   echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
   echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
@@ -140,6 +152,7 @@ function gpgCLIs() {
   echo '$ gpgUpdatePath: update environment on shell to use GPG key'
   echo '$ gpgAddToGlobal KEY_ID: add KEY_ID to sign on config global of git'
   echo '$ gpgAddToLocal KEY_ID: add KEY_ID to sign on config local of git'
+  echo '$ gpgTroubleShoot: show related issue on gpg when signing often is permission'
 }
 
 #==============================================#
