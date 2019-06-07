@@ -104,8 +104,10 @@ function androidTools() {
 }
 
 androidCLIs() {
+  echo '==========================================='
   echo 'show list android emulators: $ emulators'
   echo 'launch a specific emulator :  $startEmulator $emulator_name'
+  echo '==========================================='
 }
 alias emulators="emulator -list-avds"
 startEmulator() {
@@ -124,35 +126,43 @@ alias gpgPublicKey='gpg --armor --export GPG key $1'
 alias gpgSignCommit='GIT_TRACE=1 git commit -S -m $1'
 alias gpgGrantPermissionUser='sudo chown -R $1 ~$1/.gnupg'
 alias gpgCheckSign='sudo echo "Is commit message signed?" | gpg --clearsign'
-align gpgIsEnable='git config -l | grep gpg'
+alias gpgIsEnable='git config -l | grep gpg'
 
 function gpgEdit() {
+  echo '==========================================='
   gpg --edit-key GPG key $1
   echo '$ gpg> adduid: to add the user ID details'
+  echo '==========================================='
 }
 
 function gpgUpdatePath() {
+  echo '==========================================='
   test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
   echo 'export GPG_TTY=$(tty)' >> ~/.profile
+  echo '==========================================='
 }
 
 function gpgTroubleShoot() {
+  echo '==========================================='
   echo '$ gpgSignCommit [message]: sign commit with trace the error'
   echo '$ gpgGrantPermissionUser [user]: allow user can run the gpg command'
   echo '$ gpgCheckSign: check wether sign or not'
   echo '$ export GPG_TTY=$(tty): if we saw the error Inappropriate ioctl for device'
   echo '$ gpgIsEnable: check to know whether enable sign or not'
+  echo '==========================================='
 }
 
 function gpgCLIs() {
+  echo '==========================================='
   echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
   echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
   echo '$ gpgEdit: associating an email with your GPG key'
-  echo '$ gpgPublicKey KEY_ID: get public key to add to github or receiver to verify signing'
+  echo '$ gpgPublicKey [KEY_ID]: get public key to add to github or receiver to verify signing'
   echo '$ gpgUpdatePath: update environment on shell to use GPG key'
-  echo '$ gpgAddToGlobal KEY_ID: add KEY_ID to sign on config global of git'
-  echo '$ gpgAddToLocal KEY_ID: add KEY_ID to sign on config local of git'
+  echo '$ gpgAddToGlobal [KEY_ID]: add KEY_ID to sign on config global of git'
+  echo '$ gpgAddToLocal [KEY_ID]: add KEY_ID to sign on config local of git'
   echo '$ gpgTroubleShoot: show related issue on gpg when signing often is permission'
+  echo '==========================================='
 }
 
 #==============================================#
