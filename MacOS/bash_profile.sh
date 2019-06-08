@@ -112,6 +112,39 @@ startEmulator() {
   emulator -avd $1
 }
 
+#==============================================#
+# SSH key connect without username or password
+# Base on PKI: more secure than https
+# port defaut: 22 change to 443(web https) when 
+# firewalls refuse to allow SSH connections entirely.
+#==============================================#
+alias sshGen='ssh-keygen -t rsa -b 4096 -C $1'
+alias sshKeys='ls -al ~/.ssh'
+alias sshEditPassphrase='ssh-keygen -p'
+alias checkSum='shasum -a 256 $1'
+
+function sshCopy() {
+  echo 'copy public key save to paste board of key:' $1
+  pbcopy < ~/.ssh/$1.pub
+}
+
+function sshAddToAgent() {
+    echo '==========================================='
+    eval "$(ssh-agent -s)"
+    ssh-add -K ~/.ssh/$1
+    echo '==========================================='
+}
+
+function sshCLIs() {
+    echo '==========================================='
+    echo '$ sshGen [email]: generate a new ssh key rsa 4096-bit'
+    echo '$ sshKeys: show list of ssh keys existed in your machine'
+    echo '$ sshAddToAgent [KEY_NAME]: add KEY_NAME to sh-agent and store your passphrase in the keychain'
+    echo '$ sshCopy [KEY_NAME]: copy public key to add to github. Profile -> Settings -> SSH and GPG keys -> add new & paste content'
+    echo '$ sshEditPassphrase: adding or changing a passphrase'
+    echo '$ checkSum [KEY_NAME]: get checksum of sshkey'
+    echo '==========================================='
+}
 
 #==============================================#
 # Trigger other scripts run to activate tools
