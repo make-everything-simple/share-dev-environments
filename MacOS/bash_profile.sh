@@ -122,6 +122,7 @@ alias sshGen='ssh-keygen -t rsa -b 4096 -C $1'
 alias sshKeys='ls -al ~/.ssh'
 alias sshEditPassphrase='ssh-keygen -p'
 alias checkSum='shasum -a 256 $1'
+alias fingerprint='ssh-keygen -E md5 -lf $1'
 
 function sshCopy() {
   echo 'copy public key save to paste board of key:' $1
@@ -143,6 +144,7 @@ function sshCLIs() {
     echo '$ sshCopy [KEY_NAME]: copy public key to add to github. Profile -> Settings -> SSH and GPG keys -> add new & paste content'
     echo '$ sshEditPassphrase: adding or changing a passphrase'
     echo '$ checkSum [KEY_NAME]: get checksum of sshkey'
+    echo '$ fingerprint [KEY_NAME]: get Fingerprint of a private|public key'
     echo '==========================================='
 }
 
