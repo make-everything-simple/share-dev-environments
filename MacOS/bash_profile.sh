@@ -46,11 +46,11 @@ alias install_gpg="brew install gnupg gnupg2"
 alias install_nvm="brew install nvm"
 alias install_gradle="sdk install gradle"
 
-function install_oh_my_zsh() {
+install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
-function showInfo() {
+showInfo() {
   echo '==========================================='
   echo 'Information some development tools on MACOS'
   echo '1. Homebrew: is a free and open-source software package management system that simplifies the installation of single versions software on Apple macOS operating system and Linux'
@@ -61,7 +61,7 @@ function showInfo() {
   echo '==========================================='
 }
 
-function installTools() {
+installTools() {
     echo '==========================================='
     echo 'Which tools do you want install (S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh?'
     read name
@@ -90,7 +90,7 @@ export ANDROID_SDK_ROOT=${HOME}/Library/Android/sdk
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
-function androidTools() {
+androidTools() {
   echo '==========================================='
   echo '1. JDK (Java SE Development Kit). For Java Developers. Includes a complete JRE plus tools for developing, debugging, and monitoring Java applications. 
         install: https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/'
@@ -128,7 +128,7 @@ xcodeCleanCache() {
  rm -rf ~/Library/Developer/Xcode/DerivedData/
 }
 
-function xcodeTools() {
+xcodeTools() {
   echo '==========================================='
   echo '1. Xcode: install Xcode IDE https://developer.apple.com/xcode/'
   echo '2. Xcode command line tools: allows you to do command line development in macOS $install_xcodeCLI'   
@@ -161,7 +161,7 @@ alias install_expo_cli='npm install -g expo-cli'
 alias install_react_native_cli='npm install -g react-native-cli'
 alias install_react_native_debugger='brew update && brew cask install react-native-debugger'
 
-function reactNativeTools() {
+reactNativeTools() {
   echo '==========================================='
   echo '1. $ install_nvm: node version manager'
   echo '2. $ nodeInstall [VERSION]: install node with sepecify VERSION $ nodesRemote check avaliable versions on remote'
@@ -174,7 +174,7 @@ function reactNativeTools() {
   echo '==========================================='
 }
 
-function reactNativeCLIs() {
+reactNativeCLIs() {
     echo '==========================================='
     echo '$ nodesLocal: list installed nodes on local'
     echo '$ nodeUse: specify a node version depends on each service/app'
@@ -216,19 +216,19 @@ alias sshEditPassphrase='ssh-keygen -p'
 alias checkSum='shasum -a 256 $1'
 alias fingerprint='ssh-keygen -E md5 -lf $1'
 
-function sshCopy() {
+sshCopy() {
   echo 'copy public key save to paste board of key:' $1
   pbcopy < ~/.ssh/$1.pub
 }
 
-function sshAddToAgent() {
+sshAddToAgent() {
     echo '==========================================='
     eval "$(ssh-agent -s)"
     ssh-add -K ~/.ssh/$1
     echo '==========================================='
 }
 
-function sshCLIs() {
+sshCLIs() {
     echo '==========================================='
     echo '$ sshGen [email]: generate a new ssh key rsa 4096-bit'
     echo '$ sshKeys: show list of ssh keys existed in your machine'
@@ -254,21 +254,21 @@ alias gpgGrantPermissionUser='sudo chown -R $1 ~$1/.gnupg'
 alias gpgCheckSign='sudo echo "Is commit message signed?" | gpg --clearsign'
 alias gpgIsEnable='git config -l | grep gpg'
 
-function gpgEdit() {
+gpgEdit() {
   echo '==========================================='
   gpg --edit-key GPG key $1
   echo '$ gpg> adduid: to add the user ID details'
   echo '==========================================='
 }
 
-function gpgUpdatePath() {
+gpgUpdatePath() {
   echo '==========================================='
   test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
   echo 'export GPG_TTY=$(tty)' >> ~/.profile
   echo '==========================================='
 }
 
-function gpgTroubleShoot() {
+gpgTroubleShoot() {
   echo '==========================================='
   echo '$ gpgSignCommit [message]: sign commit with trace the error'
   echo '$ gpgGrantPermissionUser [user]: allow user can run the gpg command'
@@ -278,7 +278,7 @@ function gpgTroubleShoot() {
   echo '==========================================='
 }
 
-function gpgCLIs() {
+gpgCLIs() {
   echo '==========================================='
   echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
   echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
