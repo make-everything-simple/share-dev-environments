@@ -105,13 +105,103 @@ function androidTools() {
 
 androidCLIs() {
   echo '==========================================='
-  echo 'show list android emulators: $ emulators'
-  echo 'launch a specific emulator :  $startEmulator $emulator_name'
+  echo '$ androidTools: check required tools for Android development'
+  echo '$ emulators: show list android emulators'
+  echo '$ startEmulator $emulator_name: launch a specific emulator'
   echo '==========================================='
 }
 alias emulators="emulator -list-avds"
 startEmulator() {
   emulator -avd $1
+}
+
+#==============================================#
+# install iOS tools
+#==============================================#
+alias install_xcodeCLI='xcode-select --install'
+alias simulators="xcrun simctl list"
+xcodeProfiles() {
+  open ~/Library/MobileDevice/Provisioning\ Profiles/
+}
+xcodeCleanCache() {
+ echo 'clearn all data in folder Library/Developer/Xcode/DerivedData/'
+ rm -rf ~/Library/Developer/Xcode/DerivedData/
+}
+
+function xcodeTools() {
+  echo '==========================================='
+  echo '1. Xcode: install Xcode IDE https://developer.apple.com/xcode/'
+  echo '2. Xcode command line tools: allows you to do command line development in macOS $install_xcodeCLI'   
+  echo '==========================================='
+}
+
+xcodeCLIs() {
+ echo '==========================================='
+ echo '$ xcodeTools: check required tools for iOS development'
+ echo '$ xcodeCleanCache: clean DerivedData folder'
+ echo '$ simulators:      list iOS simulators'
+ echo '$ xcodebuild:      build Xcode projects and workspaces.'
+ echo '$ runOnSimulator $simulator_name: run react-native on a specific simulator'
+ echo '$ xcrun:           Run or locate development tools and properties.'
+ echo '$ xcode-select:    Manages the active developer directory for Xcode and BSD tools.'
+ echo '$ xcodeProfiles:   open Provisioning Profiles of xcode'
+ echo '==========================================='
+}
+
+#==============================================#
+# install react-native tools
+#==============================================#
+alias nodesRemote='nvm ls-remote --lts'
+alias nodesLocal='nvm ls'
+alias nodeInstall='nvm install $1'
+alias nodeUse='nvm use $1'
+alias rn-debugger='open "rndebugger://set-debugger-loc?host=localhost&port=19001"'
+alias install_watchman='brew install watchman'
+alias install_expo_cli='npm install -g expo-cli'
+alias install_react_native_cli='npm install -g react-native-cli'
+alias install_react_native_debugger='brew update && brew cask install react-native-debugger'
+
+function reactNativeTools() {
+  echo '==========================================='
+  echo '1. $ install_nvm: node version manager'
+  echo '2. $ nodeInstall [VERSION]: install node with sepecify VERSION $ nodesRemote check avaliable versions on remote'
+  echo '3. $ install_expo_cli: install expo cli to develop without setup Android and iOS until call $ expo eject'
+  echo '4. $ install_react_native_cli: install React Native CLI required setup Android and iOS'
+  echo '5. $ install_watchman: watching changes in the filesystem [Only required for React Native CLI]'
+  echo '6. $ xcodeTools: check required tools for iOS development [Only required for React Native CLI]'
+  echo '7. $ androidTools: check required tools for Android development [Only required for React Native CLI]'
+  echo '8. $ install_react_native_debugger: a standalone app for debugging React Native apps, and includes React Inspector / Redux DevTools '
+  echo '==========================================='
+}
+
+function reactNativeCLIs() {
+    echo '==========================================='
+    echo '$ nodesLocal: list installed nodes on local'
+    echo '$ nodeUse: specify a node version depends on each service/app'
+    echo '$ rn-debugger: turn on debug mode'
+    echo '$ runOniOS: run the app on default simulator iPhone X'
+    echo '$ runOniOSSimulator [NAME]: run the app on a specific simulator'
+    echo '$ runOnAndroid: run the app on luanched emulator|device'
+    echo '$ runOnAndroidEmulator [NAME]: run the app on a specific emulator'
+    echo '$ noted: Android must start emulator before run the app, iOS can start simulator when launching the app automatically'
+    echo '==========================================='
+}
+
+runOniOSSimulator() {
+ react-native run-ios --simulator $1
+}
+
+runOniOS() {
+ react-native run-ios
+}
+
+runOnAndroidEmulator() {
+    echo 'After start emulator $1. Please open new shell and call $ runOnAndroid'
+    startEmulator $1
+}
+
+runOnAndroid() {
+    react-native run-android
 }
 
 #==============================================#
