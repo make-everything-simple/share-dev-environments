@@ -46,11 +46,11 @@ alias install_gpg="brew install gnupg gnupg2"
 alias install_nvm="brew install nvm"
 alias install_gradle="sdk install gradle"
 
-function install_oh_my_zsh() {
+install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
-function showInfo() {
+showInfo() {
   echo '==========================================='
   echo 'Information some development tools on MACOS'
   echo '1. Homebrew: is a free and open-source software package management system that simplifies the installation of single versions software on Apple macOS operating system and Linux'
@@ -61,7 +61,7 @@ function showInfo() {
   echo '==========================================='
 }
 
-function installTools() {
+installTools() {
     echo '==========================================='
     echo 'Which tools do you want install (S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh?'
     read name
@@ -90,7 +90,7 @@ export ANDROID_SDK_ROOT=${HOME}/Library/Android/sdk
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
-function androidTools() {
+androidTools() {
   echo '==========================================='
   echo '1. JDK (Java SE Development Kit). For Java Developers. Includes a complete JRE plus tools for developing, debugging, and monitoring Java applications. 
         install: https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/'
@@ -105,13 +105,103 @@ function androidTools() {
 
 androidCLIs() {
   echo '==========================================='
-  echo 'show list android emulators: $ emulators'
-  echo 'launch a specific emulator :  $startEmulator $emulator_name'
+  echo '$ androidTools: check required tools for Android development'
+  echo '$ emulators: show list android emulators'
+  echo '$ startEmulator $emulator_name: launch a specific emulator'
   echo '==========================================='
 }
 alias emulators="emulator -list-avds"
 startEmulator() {
   emulator -avd $1
+}
+
+#==============================================#
+# install iOS tools
+#==============================================#
+alias install_xcodeCLI='xcode-select --install'
+alias simulators="xcrun simctl list"
+xcodeProfiles() {
+  open ~/Library/MobileDevice/Provisioning\ Profiles/
+}
+xcodeCleanCache() {
+ echo 'clearn all data in folder Library/Developer/Xcode/DerivedData/'
+ rm -rf ~/Library/Developer/Xcode/DerivedData/
+}
+
+xcodeTools() {
+  echo '==========================================='
+  echo '1. Xcode: install Xcode IDE https://developer.apple.com/xcode/'
+  echo '2. Xcode command line tools: allows you to do command line development in macOS $install_xcodeCLI'   
+  echo '==========================================='
+}
+
+xcodeCLIs() {
+ echo '==========================================='
+ echo '$ xcodeTools: check required tools for iOS development'
+ echo '$ xcodeCleanCache: clean DerivedData folder'
+ echo '$ simulators:      list iOS simulators'
+ echo '$ xcodebuild:      build Xcode projects and workspaces.'
+ echo '$ runOnSimulator $simulator_name: run react-native on a specific simulator'
+ echo '$ xcrun:           Run or locate development tools and properties.'
+ echo '$ xcode-select:    Manages the active developer directory for Xcode and BSD tools.'
+ echo '$ xcodeProfiles:   open Provisioning Profiles of xcode'
+ echo '==========================================='
+}
+
+#==============================================#
+# install react-native tools
+#==============================================#
+alias nodesRemote='nvm ls-remote --lts'
+alias nodesLocal='nvm ls'
+alias nodeInstall='nvm install $1'
+alias nodeUse='nvm use $1'
+alias rn-debugger='open "rndebugger://set-debugger-loc?host=localhost&port=19001"'
+alias install_watchman='brew install watchman'
+alias install_expo_cli='npm install -g expo-cli'
+alias install_react_native_cli='npm install -g react-native-cli'
+alias install_react_native_debugger='brew update && brew cask install react-native-debugger'
+
+reactNativeTools() {
+  echo '==========================================='
+  echo '1. $ install_nvm: node version manager'
+  echo '2. $ nodeInstall [VERSION]: install node with sepecify VERSION $ nodesRemote check avaliable versions on remote'
+  echo '3. $ install_expo_cli: install expo cli to develop without setup Android and iOS until call $ expo eject'
+  echo '4. $ install_react_native_cli: install React Native CLI required setup Android and iOS'
+  echo '5. $ install_watchman: watching changes in the filesystem [Only required for React Native CLI]'
+  echo '6. $ xcodeTools: check required tools for iOS development [Only required for React Native CLI]'
+  echo '7. $ androidTools: check required tools for Android development [Only required for React Native CLI]'
+  echo '8. $ install_react_native_debugger: a standalone app for debugging React Native apps, and includes React Inspector / Redux DevTools '
+  echo '==========================================='
+}
+
+reactNativeCLIs() {
+    echo '==========================================='
+    echo '$ nodesLocal: list installed nodes on local'
+    echo '$ nodeUse: specify a node version depends on each service/app'
+    echo '$ rn-debugger: turn on debug mode'
+    echo '$ runOniOS: run the app on default simulator iPhone X'
+    echo '$ runOniOSSimulator [NAME]: run the app on a specific simulator'
+    echo '$ runOnAndroid: run the app on luanched emulator|device'
+    echo '$ runOnAndroidEmulator [NAME]: run the app on a specific emulator'
+    echo '$ noted: Android must start emulator before run the app, iOS can start simulator when launching the app automatically'
+    echo '==========================================='
+}
+
+runOniOSSimulator() {
+ react-native run-ios --simulator $1
+}
+
+runOniOS() {
+ react-native run-ios
+}
+
+runOnAndroidEmulator() {
+    echo 'After start emulator $1. Please open new shell and call $ runOnAndroid'
+    startEmulator $1
+}
+
+runOnAndroid() {
+    react-native run-android
 }
 
 #==============================================#
@@ -126,19 +216,19 @@ alias sshEditPassphrase='ssh-keygen -p'
 alias checkSum='shasum -a 256 $1'
 alias fingerprint='ssh-keygen -E md5 -lf $1'
 
-function sshCopy() {
+sshCopy() {
   echo 'copy public key save to paste board of key:' $1
   pbcopy < ~/.ssh/$1.pub
 }
 
-function sshAddToAgent() {
+sshAddToAgent() {
     echo '==========================================='
     eval "$(ssh-agent -s)"
     ssh-add -K ~/.ssh/$1
     echo '==========================================='
 }
 
-function sshCLIs() {
+sshCLIs() {
     echo '==========================================='
     echo '$ sshGen [email]: generate a new ssh key rsa 4096-bit'
     echo '$ sshKeys: show list of ssh keys existed in your machine'
@@ -164,21 +254,21 @@ alias gpgGrantPermissionUser='sudo chown -R $1 ~$1/.gnupg'
 alias gpgCheckSign='sudo echo "Is commit message signed?" | gpg --clearsign'
 alias gpgIsEnable='git config -l | grep gpg'
 
-function gpgEdit() {
+gpgEdit() {
   echo '==========================================='
   gpg --edit-key GPG key $1
   echo '$ gpg> adduid: to add the user ID details'
   echo '==========================================='
 }
 
-function gpgUpdatePath() {
+gpgUpdatePath() {
   echo '==========================================='
   test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
   echo 'export GPG_TTY=$(tty)' >> ~/.profile
   echo '==========================================='
 }
 
-function gpgTroubleShoot() {
+gpgTroubleShoot() {
   echo '==========================================='
   echo '$ gpgSignCommit [message]: sign commit with trace the error'
   echo '$ gpgGrantPermissionUser [user]: allow user can run the gpg command'
@@ -188,7 +278,7 @@ function gpgTroubleShoot() {
   echo '==========================================='
 }
 
-function gpgCLIs() {
+gpgCLIs() {
   echo '==========================================='
   echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
   echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
