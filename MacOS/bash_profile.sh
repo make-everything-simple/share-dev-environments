@@ -63,19 +63,20 @@ showInfo() {
 
 installTools() {
     echo '==========================================='
-    echo 'Which tools do you want install (S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh?'
+    SUPPORTED_TOOLS='(S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh'
+    echo 'Which tools do you want install $SUPPORTED_TOOLS?'
     read name
   
-    if [ "$(lowercase $name)" = "S" ]; then
+    if [ "$(uppercase $name)" = "S" ]; then
         install_sdkman
-    elif [ "$(lowercase $name)" = "G" ]; then
+    elif [ "$(uppercase $name)" = "G" ]; then
         install_gpg
-    elif [ "$(lowercase $name)" = "N" ]; then
+    elif [ "$(uppercase $name)" = "N" ]; then
         install_nvm
-    elif [ "$(lowercase $name)" = "O" ]; then
+    elif [ "$(uppercase $name)" = "O" ]; then
         install_oh_my_zsh
     else
-        echo 'please check your input to install'
+        echo 'Your input must be $SUPPORTED_TOOLS'
     fi
     echo '==========================================='
 }
