@@ -41,6 +41,8 @@ alias pidkill="kill -9 $1"
 #==============================================#
 # install develement tools
 #==============================================#
+alias beginf='echo ==========================================='
+alias endf='echo ==========================================='
 alias install_sdkman="curl -s https://get.sdkman.io | bash"
 alias install_gpg="brew install gnupg gnupg2"
 alias install_nvm="brew install nvm"
@@ -51,18 +53,18 @@ install_oh_my_zsh() {
 }
 
 showInfo() {
-  echo '==========================================='
+  beginf
   echo 'Information some development tools on MACOS'
   echo '1. Homebrew: is a free and open-source software package management system that simplifies the installation of single versions software on Apple macOS operating system and Linux'
   echo '2. SDKMAN (GVM): is a tool for managing parallel versions of multiple Software Development Kits on most Unix based systems'
   echo '3. Node Version Manager (NVM): Simple bash script to manage multiple active node.js versions'
   echo '4. GnuPG is a complete and free implementation of the OpenPGP standard. GnuPG allows you to encrypt and sign your data and communications'
   echo '5. Oh My Zsh is an open source, community-driven framework for managing your zsh configuration'
-  echo '==========================================='
+  endf
 }
 
 installTools() {
-    echo '==========================================='
+    beginf
     SUPPORTED_TOOLS='(S) SDKMAN,(G) GnuPG key, (N) Node Version Manager, (O) Oh My Zsh'
     echo 'Which tools do you want install $SUPPORTED_TOOLS?'
     read name
@@ -78,7 +80,7 @@ installTools() {
     else
         echo 'Your input must be $SUPPORTED_TOOLS'
     fi
-    echo '==========================================='
+    endf
 }
 
 #==============================================#
@@ -92,7 +94,7 @@ export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
 androidTools() {
-  echo '==========================================='
+  beginf
   echo '1. JDK (Java SE Development Kit). For Java Developers. Includes a complete JRE plus tools for developing, debugging, and monitoring Java applications. 
         install: https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/'
   echo '2. Android SDK (software development kit) is a set of development tools used to develop applications for Android platform.
@@ -101,15 +103,15 @@ androidTools() {
   echo '4. Gradle is an open-source build automation tool focused on flexibility and performance. Gradle build scripts are written using a Groovy or Kotlin DSL.
         install: $ install_gradle'
   echo 'Noted: check path of JAVA_HOME (ex: jdk1.8.0_51.jdk) in .bash_profile to make sure we use correctly'
-  echo '==========================================='
+  endf
 }
 
 androidCLIs() {
-  echo '==========================================='
+  beginf
   echo '$ androidTools: check required tools for Android development'
   echo '$ emulators: show list android emulators'
   echo '$ startEmulator $emulator_name: launch a specific emulator'
-  echo '==========================================='
+  endf
 }
 alias emulators="emulator -list-avds"
 startEmulator() {
@@ -130,14 +132,14 @@ xcodeCleanCache() {
 }
 
 xcodeTools() {
-  echo '==========================================='
+  beginf
   echo '1. Xcode: install Xcode IDE https://developer.apple.com/xcode/'
   echo '2. Xcode command line tools: allows you to do command line development in macOS $install_xcodeCLI'   
-  echo '==========================================='
+  endf
 }
 
 xcodeCLIs() {
- echo '==========================================='
+ beginf
  echo '$ xcodeTools: check required tools for iOS development'
  echo '$ xcodeCleanCache: clean DerivedData folder'
  echo '$ simulators:      list iOS simulators'
@@ -146,7 +148,7 @@ xcodeCLIs() {
  echo '$ xcrun:           Run or locate development tools and properties.'
  echo '$ xcode-select:    Manages the active developer directory for Xcode and BSD tools.'
  echo '$ xcodeProfiles:   open Provisioning Profiles of xcode'
- echo '==========================================='
+ endf
 }
 
 #==============================================#
@@ -163,7 +165,7 @@ alias install_react_native_cli='npm install -g react-native-cli'
 alias install_react_native_debugger='brew update && brew cask install react-native-debugger'
 
 reactNativeTools() {
-  echo '==========================================='
+  beginf
   echo '1. $ install_nvm: node version manager'
   echo '2. $ nodeInstall [VERSION]: install node with sepecify VERSION $ nodesRemote check avaliable versions on remote'
   echo '3. $ install_expo_cli: install expo cli to develop without setup Android and iOS until call $ expo eject'
@@ -172,11 +174,11 @@ reactNativeTools() {
   echo '6. $ xcodeTools: check required tools for iOS development [Only required for React Native CLI]'
   echo '7. $ androidTools: check required tools for Android development [Only required for React Native CLI]'
   echo '8. $ install_react_native_debugger: a standalone app for debugging React Native apps, and includes React Inspector / Redux DevTools '
-  echo '==========================================='
+  endf
 }
 
 reactNativeCLIs() {
-    echo '==========================================='
+    beginf
     echo '$ nodesLocal: list installed nodes on local'
     echo '$ nodeUse: specify a node version depends on each service/app'
     echo '$ rn-debugger: turn on debug mode'
@@ -185,7 +187,7 @@ reactNativeCLIs() {
     echo '$ runOnAndroid: run the app on luanched emulator|device'
     echo '$ runOnAndroidEmulator [NAME]: run the app on a specific emulator'
     echo '$ noted: Android must start emulator before run the app, iOS can start simulator when launching the app automatically'
-    echo '==========================================='
+    endf
 }
 
 runOniOSSimulator() {
@@ -223,14 +225,14 @@ sshCopy() {
 }
 
 sshAddToAgent() {
-    echo '==========================================='
+    beginf
     eval "$(ssh-agent -s)"
     ssh-add -K ~/.ssh/$1
-    echo '==========================================='
+    endf
 }
 
 sshCLIs() {
-    echo '==========================================='
+    beginf
     echo '$ sshGen [email]: generate a new ssh key rsa 4096-bit'
     echo '$ sshKeys: show list of ssh keys existed in your machine'
     echo '$ sshAddToAgent [KEY_NAME]: add KEY_NAME to sh-agent and store your passphrase in the keychain'
@@ -238,7 +240,7 @@ sshCLIs() {
     echo '$ sshEditPassphrase: adding or changing a passphrase'
     echo '$ checkSum [KEY_NAME]: get checksum of sshkey'
     echo '$ fingerprint [KEY_NAME]: get Fingerprint of a private|public key'
-    echo '==========================================='
+    endf
 }
 
 #==============================================#
@@ -256,31 +258,31 @@ alias gpgCheckSign='sudo echo "Is commit message signed?" | gpg --clearsign'
 alias gpgIsEnable='git config -l | grep gpg'
 
 gpgEdit() {
-  echo '==========================================='
+  beginf
   gpg --edit-key GPG key $1
   echo '$ gpg> adduid: to add the user ID details'
-  echo '==========================================='
+  endf
 }
 
 gpgUpdatePath() {
-  echo '==========================================='
+  beginf
   test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
   echo 'export GPG_TTY=$(tty)' >> ~/.profile
-  echo '==========================================='
+  endf
 }
 
 gpgTroubleShoot() {
-  echo '==========================================='
+  beginf
   echo '$ gpgSignCommit [message]: sign commit with trace the error'
   echo '$ gpgGrantPermissionUser [user]: allow user can run the gpg command'
   echo '$ gpgCheckSign: check wether sign or not'
   echo '$ export GPG_TTY=$(tty): if we saw the error Inappropriate ioctl for device'
   echo '$ gpgIsEnable: check to know whether enable sign or not'
-  echo '==========================================='
+  endf
 }
 
 gpgCLIs() {
-  echo '==========================================='
+  beginf
   echo '$ gpgGen:  generate new GPG keys (gpg version > 2.1.17) else $ gpgGenOld'
   echo '$ gpgKeys: list GPG keys for which you have both a public and private key'
   echo '$ gpgEdit: associating an email with your GPG key'
@@ -289,7 +291,7 @@ gpgCLIs() {
   echo '$ gpgAddToGlobal [KEY_ID]: add KEY_ID to sign on config global of git'
   echo '$ gpgAddToLocal [KEY_ID]: add KEY_ID to sign on config local of git'
   echo '$ gpgTroubleShoot: show related issue on gpg when signing often is permission'
-  echo '==========================================='
+  endf
 }
 
 #==============================================#
