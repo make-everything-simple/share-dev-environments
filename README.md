@@ -3,6 +3,7 @@ Align development mode among machines
 
 ## OS supports
 - MacOS
+  - Shell Style Guide: https://google.github.io/styleguide/shell.xml
   - bash_profile.sh: variable environments
   - setup.sh: script to setup and align development mode automatically
 - Window: TBD
