@@ -3,9 +3,15 @@ Align development mode among machines
 
 ## OS supports
 - MacOS
-  - Shell Style Guide: https://google.github.io/styleguide/shell.xml
-  - bash_profile.sh: variable environments
-  - setup.sh: script to setup and align development mode automatically
+  - Shell Style Guide: [Google](https://google.github.io/styleguide/shell.xml)
+  - Structure
+    - bash_base: common variable environments, required tools
+    - bash_end: active required tools must at the end of script
+    - bash_android: utility commands and required tools for Android
+    - bash_ios: utility commands and required tools for iOS
+    - bash_react_native: utility commands and required tools for React Native
+    - bash_pki: utility commands and required tools support for Public Key Infrastructure
+    - setup: script to set up and align development mode automatically
 - Window: TBD
 
 ## How to setup
