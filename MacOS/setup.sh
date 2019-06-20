@@ -1,19 +1,74 @@
 # Create a shared directory first
-SHARE_DIR_NAME=.share-dev-environments
-SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
-mkdir $SHARE_DEV_HOME
+readonly SHARE_DIR_NAME=.share-dev-environments
+readonly SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
+test ! -d $SHARE_DEV_HOME && mkdir $SHARE_DEV_HOME
 
-# Download environment files for each platform and move to shared directory
-curl -o $SHARE_DEV_HOME/bash_base https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_base.sh
-curl -o $SHARE_DEV_HOME/bash_pki https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_pki.sh
-curl -o $SHARE_DEV_HOME/bash_android https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_android.sh
-curl -o $SHARE_DEV_HOME/bash_ios https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_ios.sh
-curl -o $SHARE_DEV_HOME/bash_react_native https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_react_native.sh
-curl -o $SHARE_DEV_HOME/bash_end https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_end.sh
-curl -o $SHARE_DEV_HOME/bash_active_dev https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/bash_active_dev.sh
+# Inject script to activate shared environment into .bash_profile at the first time
+test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
+if [[ -z "${is_existed}" ]]; then 
+ echo 'File not found'
+ touch $SHARE_DEV_HOME/bash_active_dev
+ test -r ~/.bash_profile && echo "source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
+fi
 
-# Inject script to activate shared environment into .bash_profile as entry file of bash
-test -r ~/.bash_profile && test -r ~/$SHARE_DIR_NAME/bash_active_dev && echo "source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
+# Default start modules include when installing (must be call at the begining)
+desf() {
+    echo "=============================="
+    echo ".........Installing module: $1"
+}
+readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS'
+curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
+echo 'test -r ~/bash_base && source ~/bash_base' > $SHARE_DEV_HOME/bash_active_dev
 
-# Refresh bash's environment to show the result
+# Custom modules that user want to install
+lowercase() {
+    echo $1 | tr [:upper:] [:lower:]
+}
+
+readonly SUPPORTED_MODULES='(a) Android,(i) iOS, (p) Public key infrastructure includes ssh and gpg, (rn) React Native'
+echo "Which modules do you want to install: $SUPPORTED_MODULES?"
+read -p "Exmple input a,i for Android and iOS or leave empty for all: " modules
+modules=${modules:-a,i,p,rn}
+modules_lowercase="$(lowercase $modules)"
+
+if [[ "${modules_lowercase}" = *"p"* ]]; then
+  desf "pki (Public Key Infrastructure)"
+  curl -o $SHARE_DEV_HOME/bash_pki $REMOTE_LINK_MODULES/bash_pki.sh
+  echo 'test -r ~/bash_pki && source ~/bash_pki' >> $SHARE_DEV_HOME/bash_active_dev
+fi
+
+if [[ "${modules_lowercase}" = *"a"* ]]; then
+  desf "android (Android)"
+  curl -o $SHARE_DEV_HOME/bash_android $REMOTE_LINK_MODULES/bash_android.sh
+  echo 'test -r ~/bash_android && source ~/bash_android' >> $SHARE_DEV_HOME/bash_active_dev
+fi
+
+if [[ "${modules_lowercase}" = *"i"* ]]; then
+  desf "ios (iOS)"
+  curl -o $SHARE_DEV_HOME/bash_ios $REMOTE_LINK_MODULES/bash_ios.sh
+  echo 'test -r ~/bash_ios && source ~/bash_ios' >> $SHARE_DEV_HOME/bash_active_dev
+fi
+
+if [[ "${modules_lowercase}" = *"rn"* ]]; then
+  desf "rn (React Native)"
+  curl -o $SHARE_DEV_HOME/bash_react_native $REMOTE_LINK_MODULES/bash_react_native.sh
+  echo 'test -r ~/bash_react_native && source ~/bash_react_native' >> $SHARE_DEV_HOME/bash_active_dev
+fi
+
+# Default end modules include when installing (must be call at the end)
+curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_end.sh
+echo 'test -r ~/bash_end && source ~/bash_end' >> $SHARE_DEV_HOME/bash_active_dev
+
+# Quick overview structure
+main() {
+    echo '====================(^_^)=========================='
+    echo 'Each module has the same template'
+    echo '[MODULE_NAME]_tools: overview tools on this modules'
+    echo '[MODULE_NAME]_help: overview utility supported commands on this modules'
+    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!'
+    echo '====================(^_^)==========================='
+}
+main
+
+# Refresh bash environment to show the result
 source ~/.bash_profile

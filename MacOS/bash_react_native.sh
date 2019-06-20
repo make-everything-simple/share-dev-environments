@@ -5,11 +5,11 @@
 #==============================================#
 # install react-native tools
 #==============================================#
-alias rn_debugger='open "rndebugger://set-debugger-loc?host=localhost&port=19001"'
+alias rn_debugger="open rndebugger://set-debugger-loc?host=localhost&port=19001"
 alias nodes_remote='nvm ls-remote --lts'
 alias nodes_local='nvm ls'
-alias node_use='nvm use $1'
-alias install_node='nvm install $1'
+alias node_use="nvm use $1"
+alias install_node="nvm install $1"
 alias install_watchman='brew install watchman'
 alias install_expo_cli='npm install -g expo-cli'
 alias install_react_native_cli='npm install -g react-native-cli'
@@ -51,7 +51,7 @@ rn_ios() {
 
 rn_android_on_emulator() {
     beginf
-    echo 'After start emulator $1. Please open new shell and call $ rn_android'
+    echo "After start emulator $1. Please open new shell and call: rn_android"
     endf
     startEmulator $1
 }
@@ -60,4 +60,4 @@ rn_android() {
     react-native run-android
 }
 
-IS_USE_REACT_NATIVE_ENV=1
+readonly IS_USE_REACT_NATIVE_ENV=1

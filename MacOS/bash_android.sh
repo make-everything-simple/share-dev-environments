@@ -37,4 +37,4 @@ start_emulator() {
   emulator -avd $1
 }
 
-IS_USE_ANDROID_ENV=1
+readonly IS_USE_ANDROID_ENV=1
