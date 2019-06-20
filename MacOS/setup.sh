@@ -12,13 +12,14 @@ if [[ -z "${is_existed}" ]]; then
 fi
 
 # Default start modules include when installing (must be call at the begining)
-desf() {
-    echo "=============================="
+desf() {      
+    echo '\n=============================================================================='
     echo ".........Installing module: $1"
+    echo '=============================================================================='
 }
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS'
 curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
-echo 'test -r ~/bash_base && source ~/bash_base' > $SHARE_DEV_HOME/bash_active_dev
+echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" > $SHARE_DEV_HOME/bash_active_dev
 
 # Custom modules that user want to install
 lowercase() {
@@ -34,41 +35,40 @@ modules_lowercase="$(lowercase $modules)"
 if [[ "${modules_lowercase}" = *"p"* ]]; then
   desf "pki (Public Key Infrastructure)"
   curl -o $SHARE_DEV_HOME/bash_pki $REMOTE_LINK_MODULES/bash_pki.sh
-  echo 'test -r ~/bash_pki && source ~/bash_pki' >> $SHARE_DEV_HOME/bash_active_dev
+  echo "test -r ~/$SHARE_DIR_NAME/bash_pki && source ~/$SHARE_DIR_NAME/bash_pki" >> $SHARE_DEV_HOME/bash_active_dev
 fi
 
 if [[ "${modules_lowercase}" = *"a"* ]]; then
   desf "android (Android)"
   curl -o $SHARE_DEV_HOME/bash_android $REMOTE_LINK_MODULES/bash_android.sh
-  echo 'test -r ~/bash_android && source ~/bash_android' >> $SHARE_DEV_HOME/bash_active_dev
+  echo "test -r ~/$SHARE_DIR_NAME/bash_android && source ~/$SHARE_DIR_NAME/bash_android" >> $SHARE_DEV_HOME/bash_active_dev
 fi
 
 if [[ "${modules_lowercase}" = *"i"* ]]; then
   desf "ios (iOS)"
   curl -o $SHARE_DEV_HOME/bash_ios $REMOTE_LINK_MODULES/bash_ios.sh
-  echo 'test -r ~/bash_ios && source ~/bash_ios' >> $SHARE_DEV_HOME/bash_active_dev
+  echo "test -r ~/$SHARE_DIR_NAME/bash_ios && source ~/$SHARE_DIR_NAME/bash_ios" >> $SHARE_DEV_HOME/bash_active_dev
 fi
 
 if [[ "${modules_lowercase}" = *"rn"* ]]; then
   desf "rn (React Native)"
   curl -o $SHARE_DEV_HOME/bash_react_native $REMOTE_LINK_MODULES/bash_react_native.sh
-  echo 'test -r ~/bash_react_native && source ~/bash_react_native' >> $SHARE_DEV_HOME/bash_active_dev
+  echo "test -r ~/$SHARE_DIR_NAME/bash_react_native && source ~/$SHARE_DIR_NAME/bash_react_native" >> $SHARE_DEV_HOME/bash_active_dev
 fi
 
 # Default end modules include when installing (must be call at the end)
 curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_end.sh
-echo 'test -r ~/bash_end && source ~/bash_end' >> $SHARE_DEV_HOME/bash_active_dev
+echo "test -r ~/$SHARE_DIR_NAME/bash_end && source ~/$SHARE_DIR_NAME/bash_end" >> $SHARE_DEV_HOME/bash_active_dev
 
 # Quick overview structure
 main() {
-    echo '====================(^_^)=========================='
+    echo '\n=================================(^_^)========================================'
     echo 'Each module has the same template'
     echo '[MODULE_NAME]_tools: overview tools on this modules'
     echo '[MODULE_NAME]_help: overview utility supported commands on this modules'
-    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!'
-    echo '====================(^_^)==========================='
+    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!\n'
+    echo "||==========================================================================||"
+    echo '||Noted: must refresh environment, run the command $ source ~/.bash_profile ||'
+    echo "||==========================================================================||"
 }
 main
-
-# Refresh bash environment to show the result
-source ~/.bash_profile

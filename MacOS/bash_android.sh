@@ -36,5 +36,3 @@ alias emulators="emulator -list-avds"
 start_emulator() {
   emulator -avd $1
 }
-
-readonly IS_USE_ANDROID_ENV=1
