@@ -109,5 +109,4 @@ gpg_help() {
   endf
 }
 
-readonly IS_USE_PKI_ENV=1
 export GPG_TTY=$(tty)

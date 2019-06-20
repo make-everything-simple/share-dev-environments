@@ -59,5 +59,3 @@ rn_android_on_emulator() {
 rn_android() {
     react-native run-android
 }
-
-readonly IS_USE_REACT_NATIVE_ENV=1

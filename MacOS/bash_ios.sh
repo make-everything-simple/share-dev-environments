@@ -35,5 +35,3 @@ ios_help() {
  echo '$ ios_profiles:   open Provisioning Profiles of xcode'
  endf
 }
-
-readonly IS_USE_IOS_ENV=1
