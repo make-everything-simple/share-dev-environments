@@ -62,14 +62,26 @@ ssh_help() {
 alias gpg_keys='gpg --list-secret-keys --keyid-format LONG'
 alias gpg_gen='gpg --full-generate-key'
 alias gpg_gen_old='gpg --default-new-key-algo rsa4096 --gen-key'
-alias gpg_add_to_global="git config --global user.signingkey $1 && git config --global commit.gpgsign true"
-alias gpg_add_to_local="git config --local user.signingkey $1 && git config --local commit.gpgsign true"
 alias gpg_public_key="gpg --armor --export GPG key $1"
 alias gpg_sign_commit="GIT_TRACE=1 git commit -S -m $1"
 alias gpg_grant_permission="sudo chown -R $1 ~$1/.gnupg"
 alias gpg_check_sign='sudo echo "Is commit message signed?" | gpg --clearsign'
 alias gpg_is_enable='git config -l | grep gpg'
 alias install_gpg="brew install gnupg gnupg2"
+
+gpg_add_to_local() {
+  beginf
+  git config --local user.signingkey $1
+  git config --local commit.gpgsign true
+  endf
+}
+
+gpg_add_to_global() {
+  beginf
+  git config --global user.signingkey $1
+  git config --global commit.gpgsign true
+  endf
+}
 
 gpg_edit() {
   beginf
@@ -109,4 +121,5 @@ gpg_help() {
   endf
 }
 
+readonly IS_USE_PKI_ENV=1
 export GPG_TTY=$(tty)
