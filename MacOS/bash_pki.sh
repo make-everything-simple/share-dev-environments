@@ -113,13 +113,12 @@ gpg_help() {
   echo '$ gpg_gen:  generate new GPG keys (gpg version > 2.1.17) else $ gpg_gen_old'
   echo '$ gpg_keys: list GPG keys for which you have both a public and private key'
   echo '$ gpg_edit: associating an email with your GPG key'
-  echo '$ gpg_public_key [KEY_ID]: get public key to add to github or receiver to verify signing'
+  echo '$ gpg_public_key [SEC_KEY_ID]: get public key to add to github or receiver to verify signing'
   echo '$ gpg_update_path: update environment on shell to use GPG key'
-  echo '$ gpg_add_to_global [KEY_ID]: add KEY_ID to sign on config global of git'
-  echo '$ gpg_add_to_local [KEY_ID]: add KEY_ID to sign on config local of git'
+  echo '$ gpg_add_to_global [SEC_KEY_ID]: add SEC_KEY_ID to sign on config global of git'
+  echo '$ gpg_add_to_local [SEC_KEY_ID]: add SEC_KEY_ID to sign on config local of git'
   echo '$ gpg_trouble_shoot: show related issue on gpg when signing often is permission'
   endf
 }
 
-readonly IS_USE_PKI_ENV=1
 export GPG_TTY=$(tty)
