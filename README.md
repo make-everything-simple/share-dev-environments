@@ -21,5 +21,8 @@ Align development mode among machines
   - Execute the script: ./setup.sh
 - Window: TBD
 
+## How to use
+- $ simple: Run the command for hint
+
 ## Know issues
 - This script can override existed variable environments on your machine although it aligns development mode.
