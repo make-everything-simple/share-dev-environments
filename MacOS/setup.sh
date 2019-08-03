@@ -3,32 +3,50 @@ readonly SHARE_DIR_NAME=.share-dev-environments
 readonly SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
 test ! -d $SHARE_DEV_HOME && mkdir $SHARE_DEV_HOME
 
+# List of supported modules
+readonly SUPPORTED_MODULES='
+(a) Android,
+(i) iOS, 
+(p) Public key infrastructure includes ssh and gpg, 
+(rn) React Native'
+
 # Inject script to activate shared environment into .bash_profile at the first time
 test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
 if [[ -z "${is_existed}" ]]; then 
- echo 'File not found'
  touch $SHARE_DEV_HOME/bash_active_dev
- test -r ~/.bash_profile && echo "source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
+ test -r ~/.bash_profile && echo "test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
 fi
 
 # Default start modules include when installing (must be call at the begining)
 desf() {      
-    echo '\n=============================================================================='
+    echo ''
+    echo "=============================================================================="
     echo ".........Installing module: $1"
     echo '=============================================================================='
 }
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS'
 curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
-echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" > $SHARE_DEV_HOME/bash_active_dev
+
+# Fill content for entry point
+echo 'simple() {' > $SHARE_DEV_HOME/bash_active_dev
+echo '  echo '''  >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo "=================================(^_^)========================================"' >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '"Supported Modules: $SUPPORTED_MODULES"'"  >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo 'Each module has the same format'' >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo '[MODULE_NAME]_tools: overview tools on this module'' >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo '[MODULE_NAME]_help: overview utility supported commands on this module'' >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo "=============================================================================="' >> $SHARE_DEV_HOME/bash_active_dev
+echo '  echo '''  >> $SHARE_DEV_HOME/bash_active_dev
+echo '}' >> $SHARE_DEV_HOME/bash_active_dev
+echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" >> $SHARE_DEV_HOME/bash_active_dev
 
 # Custom modules that user want to install
 lowercase() {
     echo $1 | tr [:upper:] [:lower:]
 }
 
-readonly SUPPORTED_MODULES='(a) Android,(i) iOS, (p) Public key infrastructure includes ssh and gpg, (rn) React Native'
-echo "Which modules do you want to install: $SUPPORTED_MODULES?"
-read -p "Exmple input a,i for Android and iOS or leave empty for all: " modules
+echo "Which modules do you want to install? $SUPPORTED_MODULES"
+read -p ">> input a,i for Android and iOS or leave empty for all: " modules
 modules=${modules:-a,i,p,rn}
 modules_lowercase="$(lowercase $modules)"
 
@@ -62,13 +80,17 @@ echo "test -r ~/$SHARE_DIR_NAME/bash_end && source ~/$SHARE_DIR_NAME/bash_end" >
 
 # Quick overview structure
 main() {
-    echo '\n=================================(^_^)========================================'
-    echo 'Each module has the same template'
-    echo '[MODULE_NAME]_tools: overview tools on this modules'
-    echo '[MODULE_NAME]_help: overview utility supported commands on this modules'
-    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!\n'
+    echo ''
+    echo '=================================(^_^)========================================'
+    echo 'Each module has the same format'
+    echo '[MODULE_NAME]_tools: overview tools on this module'
+    echo '[MODULE_NAME]_help: overview utility supported commands on this module'
+    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!'
+    echo '$ simple: run command for hint'
+    echo ''
     echo "||==========================================================================||"
     echo '||Noted: must refresh environment, run the command $ source ~/.bash_profile ||'
     echo "||==========================================================================||"
+    echo ''
 }
 main
