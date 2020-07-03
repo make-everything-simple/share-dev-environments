@@ -85,7 +85,7 @@ gpg_add_to_global() {
 
 gpg_edit() {
   beginf
-  gpg --edit-key GPG key $1
+  gpg --edit-key $1
   echo '$ gpg> adduid: to add the user ID details'
   endf
 }
@@ -112,7 +112,7 @@ gpg_help() {
   echo '$ install_gpg: install GnuPG'
   echo '$ gpg_gen:  generate new GPG keys (gpg version > 2.1.17) else $ gpg_gen_old'
   echo '$ gpg_keys: list GPG keys for which you have both a public and private key'
-  echo '$ gpg_edit: associating an email with your GPG key'
+  echo '$ gpg_edit [SEC_KEY_ID]: associating an email with your GPG key'
   echo '$ gpg_public_key [SEC_KEY_ID]: get public key to add to github or receiver to verify signing'
   echo '$ gpg_update_path: update environment on shell to use GPG key'
   echo '$ gpg_add_to_global [SEC_KEY_ID]: add SEC_KEY_ID to sign on config global of git'
