@@ -10,6 +10,8 @@ readonly SUPPORTED_MODULES='
 (p) Public key infrastructure includes ssh and gpg, 
 (rn) React Native'
 
+readonly ALIAS_SUPPORTED_MODULES='[android, ios, pki, rn]'
+
 # Inject script to activate shared environment into .bash_profile at the first time
 test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
 if [[ -z "${is_existed}" ]]; then 
@@ -83,8 +85,9 @@ main() {
     echo ''
     echo '=================================(^_^)========================================'
     echo 'Each module has the same format'
-    echo '[MODULE_NAME]_tools: overview tools on this module'
-    echo '[MODULE_NAME]_help: overview utility supported commands on this module'
+    echo '$MODULE_NAME_tools: overview tools of a specific module'
+    echo '$MODULE_NAME_help: overview utility supported commands of a specific module'
+    echo "MODULE_NAME: is one of values in $ALIAS_SUPPORTED_MODULES"
     echo 'Congratulation: You installed successfully. Thanks and enjoy your work!'
     echo '$ simple: run command for hint'
     echo ''
