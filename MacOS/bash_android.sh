@@ -80,6 +80,7 @@ alias devices='adb devices'
 alias adb_docs="open 'https://developer.android.com/studio/command-line/adb'"
 alias logcat_docs="open 'https://developer.android.com/studio/command-line/logcat'"
 alias connect_device11="open 'https://developer.android.com/studio/command-line/adb#connect-to-a-device-over-wi-fi-android-11+'"
+alias adb_analytics_debug="adb shell setprop debug.firebase.analytics.app $1"
 adb_help() {
   beginf
   echo 'Connect to a device over Wi-Fi'
@@ -97,5 +98,7 @@ adb_help() {
   echo '$ stop_server: Reset your adb host to stop listening for a TCP/IP connection'
   echo '$ adb_docs: open official Android documentation adb command-line'
   echo '$ logcat_docs: open official Android documentation logcat command-line'
+  echo ''
+  echo '$ adb_analytics_debug: enable debug view for firebase analytics by packagename or .none. to disable'
   endf
 }
