@@ -16,8 +16,9 @@ readonly ALIAS_SUPPORTED_MODULES='[android, ios, pki, rn]'
 test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
 if [[ -z "${is_existed}" ]]; then 
  touch $SHARE_DEV_HOME/bash_active_dev
- test -r ~/.bash_profile && echo "test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
 fi
+# Register the command to inject the custom commands
+test -r ~/.bash_profile && echo "test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
 
 # Default start modules include when installing (must be call at the begining)
 desf() {      

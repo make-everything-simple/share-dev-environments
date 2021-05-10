@@ -7,20 +7,20 @@ Align development mode among machines (developers).
 - Common commands for SSH (Secure Shell).
 - Common commands for GPG (GNU Privacy Guard) sign your commit or message.
 
-## OS supports
-- MacOS
-  - Shell Style Guide: [Google](https://google.github.io/styleguide/shell.xml)
-- Window: TBD
+## OS support
+- macOS only
 
 ## How to setup
-- MacOS (easy setup)
-  - Download the setup script: ``` curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup.sh ```
-  - Grant permission to the script: ``` chmod +x ./setup.sh ```
-  - Execute the script: ``` ./setup.sh ```
-- Window: TBD
+
+- Download the setup run script: ``` curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup.sh ```
+- Grant the execute permission to the script: ``` chmod +x ./setup.sh ```
+- Execute the script: ``` ./setup.sh ```
 
 ## How to use
-- ```$ simple ```: Run the command for hint
+- ```$ simple ```: Run the command for a hint
 
 ## Know issues
-- This script can override existed variable environments on your machine although it aligns development mode.
+- This script needs the admin permission to execute
+
+## Contributors
+- Follow Style Guide: [Shell](https://google.github.io/styleguide/shell.xml)
