@@ -5,14 +5,32 @@ readonly SHARE_DIR_NAME=.share-dev-environments
 readonly SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
 test ! -d $SHARE_DEV_HOME && mkdir $SHARE_DEV_HOME
 
+#==============================================#
+# Make Icon
+#==============================================#
+mes_icon() {
+  echo "
+   _   _   _   _     _   _   _   _   _   _  
+  / \ / \ / \ / \   / \ / \ / \ / \ / \ / \ 
+ ( M ) a ) k ) e ) ( S ) i ) m ) p ) l ) e )
+  \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ 
+  "
+}
+mes_icon
+
 # List of supported modules
 readonly SUPPORTED_MODULES='
 (a) Android,
 (i) iOS, 
 (p) Public key infrastructure includes ssh and gpg, 
-(rn) React Native'
+(rn) React Native,
+(m) MongoDB'
 
-readonly ALIAS_SUPPORTED_MODULES='[android, ios, pki, rn]'
+readonly DEFAULT_MODULES='a,i,p,m,rn'
+
+readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, rn]'
+readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS'
+declare -a GUIDE_COMMANDS=()
 
 # Inject script to activate shared environment into .bash_profile at the first time
 test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
@@ -29,25 +47,14 @@ desf() {
     echo ".........Installing module: $1"
     echo '=============================================================================='
 }
-readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS'
+
 curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
 
 # Fill content for entry point
-echo 'simple() {' > $SHARE_DEV_HOME/bash_active_dev
-echo '  beginf' >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo 'Supported Modules: $SUPPORTED_MODULES'"  >> $SHARE_DEV_HOME/bash_active_dev
-echo '  groupf'  >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ base_help: overview utility supported commands on macOS'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ base_tools: overview common tools on macOS'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ ios_help: overview utility supported commands on iOS'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ ios_tools: overview common tools on iOS'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ android_help: overview utility supported commands on Android'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ android_tools: overview common tools Android'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ pki_help: overview utility supported commands on public key infrastructure'" >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '$ pki_tools: overview common tools on public key infrastructure'" >> $SHARE_DEV_HOME/bash_active_dev
-echo '  endf'  >> $SHARE_DEV_HOME/bash_active_dev
-echo '}' >> $SHARE_DEV_HOME/bash_active_dev
-echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" >> $SHARE_DEV_HOME/bash_active_dev
+echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" > $SHARE_DEV_HOME/bash_active_dev
+# Add base commands to simple function
+GUIDE_COMMANDS+=("echo '$ base_help: overview utility supported commands on macOS'")
+GUIDE_COMMANDS+=("echo '$ base_tools: overview common tools on macOS'")
 
 # Custom modules that user want to install
 lowercase() {
@@ -56,51 +63,93 @@ lowercase() {
 
 echo "Which modules do you want to install? $SUPPORTED_MODULES"
 read -p ">> input a,i for Android and iOS or leave empty for all: " modules
-modules=${modules:-a,i,p,rn}
+modules=${modules:=$DEFAULT_MODULES}
 modules_lowercase="$(lowercase $modules)"
-
-if [[ "${modules_lowercase}" = *"p"* ]]; then
-  desf "pki (Public Key Infrastructure)"
-  curl -o $SHARE_DEV_HOME/bash_pki $REMOTE_LINK_MODULES/bash_pki.sh
-  echo "test -r ~/$SHARE_DIR_NAME/bash_pki && source ~/$SHARE_DIR_NAME/bash_pki" >> $SHARE_DEV_HOME/bash_active_dev
-fi
+echo "<< Modules to install $modules_lowercase"
 
 if [[ "${modules_lowercase}" = *"a"* ]]; then
   desf "android (Android)"
   curl -o $SHARE_DEV_HOME/bash_android $REMOTE_LINK_MODULES/bash_android.sh
   echo "test -r ~/$SHARE_DIR_NAME/bash_android && source ~/$SHARE_DIR_NAME/bash_android" >> $SHARE_DEV_HOME/bash_active_dev
+  
+  # Add commands to simple function 
+  GUIDE_COMMANDS+=("echo '$ android_help: overview utility supported commands on Android'")
+  GUIDE_COMMANDS+=("echo '$ android_tools: overview common tools Android'")
 fi
 
 if [[ "${modules_lowercase}" = *"i"* ]]; then
   desf "ios (iOS)"
   curl -o $SHARE_DEV_HOME/bash_ios $REMOTE_LINK_MODULES/bash_ios.sh
   echo "test -r ~/$SHARE_DIR_NAME/bash_ios && source ~/$SHARE_DIR_NAME/bash_ios" >> $SHARE_DEV_HOME/bash_active_dev
+  
+  # Add commands to simple function 
+  GUIDE_COMMANDS+=("echo '$ ios_help: overview utility supported commands on iOS'")
+  GUIDE_COMMANDS+=("echo '$ ios_tools: overview common tools on iOS'")
+fi
+
+if [[ "${modules_lowercase}" = *"p"* ]]; then
+  desf "pki (Public Key Infrastructure)"
+  curl -o $SHARE_DEV_HOME/bash_pki $REMOTE_LINK_MODULES/bash_pki.sh
+  echo "test -r ~/$SHARE_DIR_NAME/bash_pki && source ~/$SHARE_DIR_NAME/bash_pki" >> $SHARE_DEV_HOME/bash_active_dev
+  
+  # Add commands to simple function 
+  GUIDE_COMMANDS+=("echo '$ pki_help: overview utility supported commands on public key infrastructure'")
+  GUIDE_COMMANDS+=("echo '$ pki_tools: overview common tools on public key infrastructure'")
+fi
+
+if [[ "${modules_lowercase}" = *"m"* ]]; then
+  desf "mongo (MongoDB)"
+  curl -o $SHARE_DEV_HOME/bash_mongo $REMOTE_LINK_MODULES/bash_mongo.sh
+  echo "test -r ~/$SHARE_DIR_NAME/bash_mongo && source ~/$SHARE_DIR_NAME/bash_mongo" >> $SHARE_DEV_HOME/bash_active_dev
+  
+  # Add commands to simple function
+  GUIDE_COMMANDS+=("echo '$ mongo_help: overview utility supported commands on MongoDB'")
+  GUIDE_COMMANDS+=("echo '$ mongo_tools: overview common tools on MongoDB'")
 fi
 
 if [[ "${modules_lowercase}" = *"rn"* ]]; then
   desf "rn (React Native)"
-  curl -o $SHARE_DEV_HOME/bash_react_native $REMOTE_LINK_MODULES/bash_react_native.sh
-  echo "test -r ~/$SHARE_DIR_NAME/bash_react_native && source ~/$SHARE_DIR_NAME/bash_react_native" >> $SHARE_DEV_HOME/bash_active_dev
+  curl -o $SHARE_DEV_HOME/bash_rn $REMOTE_LINK_MODULES/bash_rn.sh
+  echo "test -r ~/$SHARE_DIR_NAME/bash_rn && source ~/$SHARE_DIR_NAME/bash_rn" >> $SHARE_DEV_HOME/bash_active_dev
+  
+  # Add commands to simple function
+  GUIDE_COMMANDS+=("echo '$ rn_help: overview utility supported commands on React Native'")
+  GUIDE_COMMANDS+=("echo '$ rn_tools: overview common tools on React Native'")
 fi
+
+# Create a function simple as an entry point
+create_simple() {
+  # Start
+  echo 'simple() {' >> $SHARE_DEV_HOME/bash_active_dev
+  echo '  beginf' >> $SHARE_DEV_HOME/bash_active_dev
+  echo "  echo 'Supported Modules: $SUPPORTED_MODULES'"  >> $SHARE_DEV_HOME/bash_active_dev
+  # Append commands
+  for line in "${GUIDE_COMMANDS[@]}"; do
+    echo "  $line" >> $SHARE_DEV_HOME/bash_active_dev
+  done
+  #End
+  echo '  endf'  >> $SHARE_DEV_HOME/bash_active_dev
+  echo '}' >> $SHARE_DEV_HOME/bash_active_dev
+}
+create_simple
 
 # Default end modules include when installing (must be call at the end)
 curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_end.sh
 echo "test -r ~/$SHARE_DIR_NAME/bash_end && source ~/$SHARE_DIR_NAME/bash_end" >> $SHARE_DEV_HOME/bash_active_dev
 
 # Quick overview structure
-main() {
-    echo ''
-    echo '=================================(^_^)========================================'
-    echo 'Each module has the same format'
-    echo '$MODULE_NAME_tools: overview tools of a specific module'
-    echo '$MODULE_NAME_help: overview utility supported commands of a specific module'
-    echo "MODULE_NAME: is one of values in $ALIAS_SUPPORTED_MODULES"
-    echo 'Congratulation: You installed successfully. Thanks and enjoy your work!'
-    echo '$ simple: run command for hint'
-    echo ''
-    echo "||==========================================================================||"
-    echo '||Noted: must refresh environment, run the command $ source ~/.bash_profile ||'
-    echo "||==========================================================================||"
-    echo ''
+mes_guide() {
+  echo '=================================(^_^)========================================'
+  echo '👉 Each module has the same format'
+  echo "👉 module is one of values in $LIST_SUPPORTED_MODULES"
+  echo '＄ module_tools: overview common tools on this module'
+  echo '＄ module_help: overview utility supported commands on this module'
+  echo '＄ simple: entry command for all supported commands'
+  echo '🎉 Congratulation: You installed successfully. Thanks and enjoy your work! 🎉'
+  echo '🔔 Share with your friends if it is useful'
+  echo '🙏 Contribute to making more useful commands'
+  echo '=============================================================================='
+  echo " 👉  Refresh environment by running the command '＄ source ~/.bash_profile'  👈"
+  echo '=============================================================================='
 }
-main
+mes_guide

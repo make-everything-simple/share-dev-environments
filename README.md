@@ -6,13 +6,15 @@ Align development environment among machines | developers.
 - Contribute to help your brain quick remember and prevent bad memory 🙏 
 
 ## Supported modules
-- Common variable environments, required tools
-- Common commands for Android.
-- Common commands for iOS.
-- Common commands for React Native.
+- Common variable environments, required tools for macOS
+- Common commands for Android
+- Common commands for iOS
+- Common commands for React Native
 - Common commands for Public Key Infrastructure
-  - Common commands for SSH (Secure Shell).
-  - Common commands for GPG (GNU Privacy Guard) sign your commit or message.
+  - Common commands for SSH (Secure Shell)
+  - Common commands for GPG (GNU Privacy Guard) sign your commit or message
+- Common commands for MongoDB
+
 
 ## OS support
 - macOS only
@@ -34,6 +36,7 @@ Align development environment among machines | developers.
 | iOS           |  `ios_help`  |   `ios_tools`   |
 | React Native  |  `rn_help`   |   `rn_tools`    |
 | Public Key Infrastructures | `pki_help` |    `pki_tools` |
+| MongoDB       | `mongo_help` | `mongo_tools`   |
 - ```$ simple ```: entry command for all supported commands
 
 ## Contributors
