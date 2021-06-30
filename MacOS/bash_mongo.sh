@@ -118,7 +118,7 @@ mongo_repl() {
     echo '\u2464 Connect to the entire replica set as admin: $db.auth(USER,PASS)'
     echo '\u2465 Add nodes to Replica set: $rs.add(NODE2) & rs.add(NODE3) to remove just run rs.remove(NODEn)'
     echo '\u2466 Verify by checking status: $rs.isMaster() | $ rs.status()'
-    echo '8. Force an election [Optional]: simulate stop primary node to trigger an election for secondary become primary'
+    echo '\u2467 Force an election [Optional]: simulate stop primary node to trigger an election for secondary become primary'
     endf
 }
 

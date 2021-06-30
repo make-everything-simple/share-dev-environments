@@ -21,6 +21,7 @@ Align development environment among machines | developers.
 
 ## How to setup
 - Download the setup run script: ``` curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup ```
+- Grant the execute permission to the script: ``` chmod +x ./setup ```
 - Execute the script: ``` ./setup ```
 - `Note`: This script needs the admin permission to execute
 
