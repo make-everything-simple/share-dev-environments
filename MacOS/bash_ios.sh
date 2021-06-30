@@ -50,5 +50,83 @@ ios_help() {
  echo '$ xcrun: run or locate development tools and properties.'
  echo '$ xcode-select: manages the active developer directory for Xcode and BSD tools.'
  echo '$ ios_profiles: open Provisioning Profiles of xcode'
+ echo '$ build_xcframework [SCHEME] [iOS_ONLY]: build a xcframework for iOS only or both iOS and MacOS (default)'
+ echo '$ pod trunk [COMMAND]: interact with the CocoaPods API to manage podspecs'
  endf
+}
+
+#######################################
+# Build XCFramework to support multi architectures.
+# Globals:
+#   None
+# Arguments:
+#   SCHEME to build $SCHEME.xcscheme. Default is current directory name
+#   iOS_ONLE check to build iOS only or both iOS and MacOS. Default is both
+# Outputs:
+#   Create a new file $SCHEME.xcframework
+#######################################
+build_xcframework() {
+  beginf
+  # https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+  local dir_name=${PWD##*/}
+  if [[ -z "${1}" ]]; then
+    echo "build_xcframework $dir_name false"
+  else
+    if [[ -z "${2}" ]]; then
+      echo "build_xcframework $1 false"
+    else
+      echo "build_xcframework $1 $2"
+    fi
+  fi
+  local scheme_name=${1:=$dir_name}
+  local is_iOS_only=${2:=false}
+
+  # 1. Remove existing xcframework bundle
+  test -d "$scheme_name.xcframework" && rm -rf "$PWD/$scheme_name.xcframework"
+
+  # 2. Build all the supported architectures & create a XCFramework
+  if [[ "${is_iOS_only}" == 'true' ]]; then
+    build_xcframework_ios $scheme_name
+  else
+    ## Device slice.
+    xcodebuild clean archive -scheme "$scheme_name" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphoneos  -configuration Release -destination 'generic/platform=iOS' -archivePath "$PWD/archives/$scheme_name.framework-iphoneos.xcarchive" SKIP_INSTALL=NO
+
+    ## Simulator slice.
+    xcodebuild clean archive -scheme "$scheme_name" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "$PWD/archives/$scheme_name.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
+
+    ## Mac Catalyst slice.
+    xcodebuild clean archive -scheme "$scheme_name" -configuration Release -archivePath "$PWD/archives/$scheme_name.framework-catalyst.xcarchive" SKIP_INSTALL=NO
+
+    # Create a XCFramework to combine all the supported architectures in a bundle
+    xcodebuild -create-xcframework -framework "$PWD/archives/$scheme_name.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-iphoneos.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-catalyst.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -output "$PWD/$scheme_name.xcframework"
+  fi
+
+  # 3. Remove temporay folder to take the space back
+  rm -rf "$PWD/archives"
+  $endf
+}
+
+#######################################
+# Build XCFramework to support multi architectures for iOS only.
+# Globals:
+#   None
+# Arguments:
+#   SCHEME to build $SCHEME.xcscheme. Default is current directory name
+# Outputs:
+#   Create a new file $SCHEME.xcframework
+build_xcframework_ios() {
+  beginf
+  if [[ -z "${1}" ]]; then
+    echo "Missing SCHEME, retry with 'build_xcframework_ios [SCHEME]', please"
+  else
+    ## Device slice.
+    xcodebuild clean archive -scheme "$1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphoneos  -configuration Release -destination 'generic/platform=iOS' -archivePath "$PWD/archives/$1.framework-iphoneos.xcarchive" SKIP_INSTALL=NO
+
+    ## Simulator slice.
+    xcodebuild clean archive -scheme "$1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "$PWD/archives/$1.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
+
+    ## Create a XCFramework to combine all the supported architectures in a bundle
+    xcodebuild -create-xcframework -framework "$PWD/archives/$1.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$1.framework" -framework "$PWD/archives/$1.framework-iphoneos.xcarchive/Products/Library/Frameworks/$1.framework" -output "$PWD/$1.xcframework"
+  fi
+  endf
 }
