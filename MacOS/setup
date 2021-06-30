@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # Create a shared directory first
 readonly SHARE_DIR_NAME=.share-dev-environments
 readonly SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
@@ -21,7 +23,7 @@ fi
 test -r ~/.bash_profile && echo "test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
 
 # Default start modules include when installing (must be call at the begining)
-desf() {      
+desf() {
     echo ''
     echo "=============================================================================="
     echo ".........Installing module: $1"
@@ -32,14 +34,18 @@ curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
 
 # Fill content for entry point
 echo 'simple() {' > $SHARE_DEV_HOME/bash_active_dev
-echo '  echo '''  >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo "=================================(^_^)========================================"' >> $SHARE_DEV_HOME/bash_active_dev
-echo "  echo '"Supported Modules: $SUPPORTED_MODULES"'"  >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo 'Each module has the same format'' >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo '[MODULE_NAME]_tools: overview tools on this module'' >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo '[MODULE_NAME]_help: overview utility supported commands on this module'' >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo "=============================================================================="' >> $SHARE_DEV_HOME/bash_active_dev
-echo '  echo '''  >> $SHARE_DEV_HOME/bash_active_dev
+echo '  beginf' >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo 'Supported Modules: $SUPPORTED_MODULES'"  >> $SHARE_DEV_HOME/bash_active_dev
+echo '  groupf'  >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ base_help: overview utility supported commands on macOS'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ base_tools: overview common tools on macOS'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ ios_help: overview utility supported commands on iOS'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ ios_tools: overview common tools on iOS'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ android_help: overview utility supported commands on Android'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ android_tools: overview common tools Android'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ pki_help: overview utility supported commands on public key infrastructure'" >> $SHARE_DEV_HOME/bash_active_dev
+echo "  echo '$ pki_tools: overview common tools on public key infrastructure'" >> $SHARE_DEV_HOME/bash_active_dev
+echo '  endf'  >> $SHARE_DEV_HOME/bash_active_dev
 echo '}' >> $SHARE_DEV_HOME/bash_active_dev
 echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" >> $SHARE_DEV_HOME/bash_active_dev
 
