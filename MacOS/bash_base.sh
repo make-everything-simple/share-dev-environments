@@ -47,6 +47,52 @@ lowercase() {
     echo $1 | tr [:upper:] [:lower:]
 }
 
+###############################################################################
+# Convert a string to array via splitting string by custom delimiter.
+# Globals:
+#   None
+# Arguments:
+#   source Value of string input as array
+#   delimiter separate character each item in source value as array format
+###############################################################################
+convert_to_array() {
+  local delimiter=${2:=,}
+  echo $1 | tr "$delimiter" " "
+}
+
+###############################################################################
+# Read a parameter until it has the value.
+# Globals:
+#   None
+# Arguments:
+#   None
+###############################################################################
+read_parameter() {
+  while true; do
+    local parameter
+    read parameter
+    if [[ -n "${parameter}" ]]; then
+      break
+    fi
+  done
+
+  echo $parameter
+}
+
+###############################################################################
+# Register a module with the system to provide more ultility commands.
+# Globals:
+#   None
+# Arguments:
+#   src_file name of file of your module to copy at current directory
+#   des_file name of file to register with system at target directory
+###############################################################################
+base_register() {
+    local SHARE_DIR_NAME=.share-dev-environments
+    mv $PWD/$1 $HOME/$SHARE_DIR_NAME/$2
+    echo "test -r ~/$SHARE_DIR_NAME/$2 && source ~/$SHARE_DIR_NAME/$2" >> ~/$SHARE_DIR_NAME/bash_active_dev
+}
+
 #==============================================#
 # info port, process
 #==============================================#
@@ -64,6 +110,21 @@ alias groupf="echo ======================="
 alias install_jdk="open 'https://www.oracle.com/java/technologies/javase-downloads.html'"
 alias install_sdkman='curl -s https://get.sdkman.io | bash'
 alias install_nvm='brew install nvm'
+
+# Display large message as group
+group() {
+  echo ''
+  echo '=============================================================================='
+  echo "$1"
+  echo '=============================================================================='
+}
+
+# Display small message as group
+group_s() {
+  echo "-----------------------"
+  echo "$1"
+  echo "-----------------------"
+}
 
 install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -103,6 +164,7 @@ base_setup() {
 base_help() {
     beginf
     echo '$ base_tools: check required development tools on macOS'
+    echo '$ base_register: register your custom module. To take effect run $ refresh'
     echo '$ base_setup: setup required development tools'
     echo '$ pidport [PORT]: get process ids run on specific port'
     echo '$ pidkill [PROCESS_ID]: kill a process base on id'
@@ -116,5 +178,7 @@ base_help() {
     echo '$ capitalize: capitalize a string'
     echo '$ uppercase: uppercase a string'
     echo '$ lowercase: lowercase a string'
+    echo '$ convert_to_array: split a string to array by delimiter'
+    echo '$ read_parameter: read a parameter until it has the value'
     endf
 }
