@@ -51,8 +51,8 @@ mongo_setup() {
     (1) MongoDB Standalone, (2) MongoDB Atlas, (3) MongoDB Shell,
     (4) MongoDB Database Tools, (5) MongoDB CLI, (6) MongoDB Compass, 
     (7) MongoDB Kubernetes Operators, (0) More Info tools'
-    echo 'Which tools do you want install: $supported_tools?'
-    read name
+    echo "Which tool do you want install: $supported_tools?"
+    read -p ">> input your tool 1|2|3|4|5|6|7: " name
   
     # Process input from developer
     if [[ "${name}" = "1" ]]; then
