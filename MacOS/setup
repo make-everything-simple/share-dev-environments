@@ -1,5 +1,7 @@
 #!/bin/bash
-#
+set -e
+# Setup and register modules with the system
+
 # Create a shared directory first
 readonly SHARE_DIR_NAME=.share-dev-environments
 readonly SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
@@ -37,8 +39,15 @@ test -r $SHARE_DEV_HOME/bash_active_dev && readonly is_existed=true
 if [[ -z "${is_existed}" ]]; then 
  touch $SHARE_DEV_HOME/bash_active_dev
 fi
+
 # Register the command to inject the custom commands
-test -r ~/.bash_profile && echo "test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev" >> ~/.bash_profile
+if [[ -r ~/.bash_profile ]]; then
+  readonly register_entry="test -r ~/$SHARE_DIR_NAME/bash_active_dev && source ~/$SHARE_DIR_NAME/bash_active_dev"
+  readonly content_bash_profile=$(cat ~/.bash_profile)
+  if [[ ! "${content_bash_profile}" =~ "${register_entry}" ]]; then
+    echo -n $register_entry >> ~/.bash_profile
+  fi
+fi
 
 # Default start modules include when installing (must be call at the begining)
 desf() {
