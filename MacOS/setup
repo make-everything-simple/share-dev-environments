@@ -147,8 +147,9 @@ fi
 # CLI
 ###############################################################################
 # Add a module to help developers custom his cli tools (binary packages) as a system's service
-curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_cli.sh
-echo "test -r ~/$SHARE_DIR_NAME/bash_cli && source ~/$SHARE_DIR_NAME/bash_cli" >> $SHARE_DEV_HOME/bash_cli
+desf "Custom CLI Tools"
+curl -o $SHARE_DEV_HOME/bash_cli $REMOTE_LINK_MODULES/bash_cli.sh
+echo "test -r ~/$SHARE_DIR_NAME/bash_cli && source ~/$SHARE_DIR_NAME/bash_cli" >> $SHARE_DEV_HOME/bash_active_dev
 # Add commands to simple function
 GUIDE_COMMANDS+=("echo '$ cli_help: overview utility supported commands on CLI'")
 GUIDE_COMMANDS+=("echo '$ cli_tools: overview common tools on CLI'")

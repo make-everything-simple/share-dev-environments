@@ -13,8 +13,10 @@ cli_register_info() {
   echo "# 1. Create a directory CommandLine to contain all of your custom CLI"
   echo "# 2. Move other contain commandline tools to created directory to centralize"
   echo "# 3. Execute the function cli_register to let it does the work for you"
-  echo "# 4. Refresh the environment to take effect immediately $ refresh"
-  echo "# 5: Write export PATH to the file environment_custom_cli"
+  echo "# 4: Write export PATH to the file environment_custom_cli"
+  echo "# 5. Refresh the environment to take effect immediately $ refresh"
+  echo "# 6: Verify your environment for configured CLI Tools"
+  # Show an concrete example for more detail
   echo " e.g. A directory at /Applications/CommandLine as I used and use it as default in case your skip input"
   echo "
   ├── apache-maven-3.6.3
@@ -25,6 +27,7 @@ cli_register_info() {
   ├── mongodb-enterprise-4.4.6
   └── terraform
   "
+  echo "After executing. Just verify your environment e.g $ terraform, mongo..."
   echo "🔔 NOTE: Everytime you update or add new cli tools just re-execute the function $ cli_register 🔔"
   echo "###############################################################################"
 }
@@ -95,7 +98,7 @@ cli_register() {
 
 cli_tools() {
   beginf
-  echo 'This modules just use built-in shell command to register customized environment variables with the system'
+  echo 'Use built-in shell commands to register customized environment variables with the system'
   endf
 }
 
