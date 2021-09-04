@@ -23,6 +23,8 @@ set_java_home() {
   export JAVA_HOME=$1
 }
 
+export SHARE_DEV_HOME=$HOME/.share-dev-environments
+
 #==============================================#
 # General commands
 #==============================================#
@@ -31,8 +33,6 @@ alias hide_files='defaults write com.apple.finder AppleShowAllFiles false'
 alias kill_files='killall Finder'
 alias clear_cache='sudo purge'
 
-export SCRIPTS=/Applications/Scripts
-export COMMAND_LINE_HOME=/Applications/CommandLine
 alias refresh='source ~/.bash_profile'
 alias myip='ifconfig en0'
 capitalize() {
@@ -91,6 +91,7 @@ base_register() {
     local SHARE_DIR_NAME=.share-dev-environments
     mv $PWD/$1 $HOME/$SHARE_DIR_NAME/$2
     echo "test -r ~/$SHARE_DIR_NAME/$2 && source ~/$SHARE_DIR_NAME/$2" >> ~/$SHARE_DIR_NAME/bash_active_dev
+
 }
 
 #==============================================#
@@ -107,6 +108,7 @@ alias pidkill="kill -9 $1"
 alias beginf="echo =============================================="
 alias endf="echo =============================================="
 alias groupf="echo ======================="
+alias remind_refresh="echo To take effect. Reload the environment by executing command 👉 $ refresh 👈"
 alias install_jdk="open 'https://www.oracle.com/java/technologies/javase-downloads.html'"
 alias install_sdkman='curl -s https://get.sdkman.io | bash'
 alias install_nvm='brew install nvm'
@@ -114,12 +116,12 @@ alias install_nvm='brew install nvm'
 # Display large message as group
 group() {
   echo ''
-  echo '=============================================================================='
-  echo "$1"
-  echo '=============================================================================='
+  echo '#=============================================================================='
+  echo "# $1"
+  echo '#=============================================================================='
 }
 
-# Display small message as group
+# Display small message as sub-group
 group_s() {
   echo "-----------------------"
   echo "$1"
@@ -164,7 +166,7 @@ base_setup() {
 base_help() {
     beginf
     echo '$ base_tools: check required development tools on macOS'
-    echo '$ base_register: register your custom module. To take effect run $ refresh'
+    echo '$ base_register: register your reusable function from your custom module'
     echo '$ base_setup: setup required development tools'
     echo '$ pidport [PORT]: get process ids run on specific port'
     echo '$ pidkill [PROCESS_ID]: kill a process base on id'

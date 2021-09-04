@@ -57,8 +57,10 @@ desf() {
     echo '=============================================================================='
 }
 
+###############################################################################
+# Base Start
+###############################################################################
 curl -o $SHARE_DEV_HOME/bash_base $REMOTE_LINK_MODULES/bash_base.sh
-
 # Fill content for entry point
 echo "test -r ~/$SHARE_DIR_NAME/bash_base && source ~/$SHARE_DIR_NAME/bash_base" > $SHARE_DEV_HOME/bash_active_dev
 # Add base commands to simple function
@@ -76,6 +78,9 @@ modules=${modules:=$DEFAULT_MODULES}
 modules_lowercase="$(lowercase $modules)"
 echo "<< Modules to install $modules_lowercase"
 
+###############################################################################
+# Android
+###############################################################################
 if [[ "${modules_lowercase}" = *"a"* ]]; then
   desf "android (Android)"
   curl -o $SHARE_DEV_HOME/bash_android $REMOTE_LINK_MODULES/bash_android.sh
@@ -86,6 +91,9 @@ if [[ "${modules_lowercase}" = *"a"* ]]; then
   GUIDE_COMMANDS+=("echo '$ android_tools: overview common tools Android'")
 fi
 
+###############################################################################
+# iOS
+###############################################################################
 if [[ "${modules_lowercase}" = *"i"* ]]; then
   desf "ios (iOS)"
   curl -o $SHARE_DEV_HOME/bash_ios $REMOTE_LINK_MODULES/bash_ios.sh
@@ -96,6 +104,9 @@ if [[ "${modules_lowercase}" = *"i"* ]]; then
   GUIDE_COMMANDS+=("echo '$ ios_tools: overview common tools on iOS'")
 fi
 
+###############################################################################
+# Public Key Infrastructure
+###############################################################################
 if [[ "${modules_lowercase}" = *"p"* ]]; then
   desf "pki (Public Key Infrastructure)"
   curl -o $SHARE_DEV_HOME/bash_pki $REMOTE_LINK_MODULES/bash_pki.sh
@@ -106,6 +117,9 @@ if [[ "${modules_lowercase}" = *"p"* ]]; then
   GUIDE_COMMANDS+=("echo '$ pki_tools: overview common tools on public key infrastructure'")
 fi
 
+###############################################################################
+# MongoDB
+###############################################################################
 if [[ "${modules_lowercase}" = *"m"* ]]; then
   desf "mongo (MongoDB)"
   curl -o $SHARE_DEV_HOME/bash_mongo $REMOTE_LINK_MODULES/bash_mongo.sh
@@ -116,6 +130,9 @@ if [[ "${modules_lowercase}" = *"m"* ]]; then
   GUIDE_COMMANDS+=("echo '$ mongo_tools: overview common tools on MongoDB'")
 fi
 
+###############################################################################
+# React Native
+###############################################################################
 if [[ "${modules_lowercase}" = *"rn"* ]]; then
   desf "rn (React Native)"
   curl -o $SHARE_DEV_HOME/bash_rn $REMOTE_LINK_MODULES/bash_rn.sh
@@ -125,6 +142,16 @@ if [[ "${modules_lowercase}" = *"rn"* ]]; then
   GUIDE_COMMANDS+=("echo '$ rn_help: overview utility supported commands on React Native'")
   GUIDE_COMMANDS+=("echo '$ rn_tools: overview common tools on React Native'")
 fi
+
+###############################################################################
+# CLI
+###############################################################################
+# Add a module to help developers custom his cli tools (binary packages) as a system's service
+curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_cli.sh
+echo "test -r ~/$SHARE_DIR_NAME/bash_cli && source ~/$SHARE_DIR_NAME/bash_cli" >> $SHARE_DEV_HOME/bash_cli
+# Add commands to simple function
+GUIDE_COMMANDS+=("echo '$ cli_help: overview utility supported commands on CLI'")
+GUIDE_COMMANDS+=("echo '$ cli_tools: overview common tools on CLI'")
 
 # Create a function simple as an entry point
 create_simple() {
@@ -142,6 +169,9 @@ create_simple() {
 }
 create_simple
 
+###############################################################################
+# Base End
+###############################################################################
 # Default end modules include when installing (must be call at the end)
 curl -o $SHARE_DEV_HOME/bash_end $REMOTE_LINK_MODULES/bash_end.sh
 echo "test -r ~/$SHARE_DIR_NAME/bash_end && source ~/$SHARE_DIR_NAME/bash_end" >> $SHARE_DEV_HOME/bash_active_dev

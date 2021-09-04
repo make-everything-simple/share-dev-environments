@@ -7,6 +7,7 @@ Align development environment among machines | developers.
 
 ## Supported modules
 - Common variable environments, required tools for macOS
+- Common commands for CLI Tools in centralized management
 - Common commands for Android
 - Common commands for iOS
 - Common commands for React Native
@@ -33,6 +34,7 @@ Align development environment among machines | developers.
 | Module        | Help         | Tools           |
 | ------------- |:------------:| :---------------:|
 | Base          |  `base_help` |  `base_tools`   |
+| CLI           |  `cli_help`  |  `cli_tools`    |
 | Android       |`android_help`| `android_tools` |
 | iOS           |  `ios_help`  |   `ios_tools`   |
 | React Native  |  `rn_help`   |   `rn_tools`    |
