@@ -15,6 +15,7 @@ mes_icon() {
 #==============================================#
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 export PATH="/usr/local/Cellar:$PATH"
+export PATH="/usr/local/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl/include"
 

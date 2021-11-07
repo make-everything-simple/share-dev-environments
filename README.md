@@ -18,13 +18,23 @@ Align development environment among machines | developers.
 
 
 ## OS support
-- macOS only
+- macOS only: 
+  - Bash: 
+    - Version: `4.0+` Apple's default version `3.2+` due to license concerns that we [need to upgrade bash](https://www.shell-tips.com/mac/upgrade-bash/)
 
 ## How to setup
-- Download the setup run script: ``` curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup ```
-- Grant the execute permission to the script: ``` chmod +x ./setup ```
-- Execute the script: ``` ./setup ```
-- `Note`: This script needs the admin permission to execute
+1. Download the setup run script: ``` curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup ```
+2. Grant the execute permission to the script: ``` chmod +x ./setup ```
+3. Execute the script: ``` ./setup ```
+4. Config bash use with terminal
+   - Run the command for each new session `exec bash`
+   - Config once as the following:
+     - Terminal's command default: ![bash as default](./MacOS/docs/set-shell-default-bash.png)
+     - Terminal's startup command: ![startup command](./MacOS/docs/startup-command.png)
+
+`Noted`: 
+- This script needs the admin permission to execute.
+- Make sure file `$HOME/.bash_profile` already existed before we execture. If It does not exist just create `touch $HOME/.bash_profile` and make sure permission `-rw-r--r--` to file. Run the command `chmod 644 $HOME/.bash_profile` if it does not sastify permission
 
 ## How to use
 - Each module support two basic commands
