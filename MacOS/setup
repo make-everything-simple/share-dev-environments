@@ -49,7 +49,7 @@ if [[ -r ~/.bash_profile ]]; then
   fi
 fi
 
-# Default start modules include when installing (must be call at the begining)
+# Default start modules include when installing (must be call at the beginning)
 desf() {
     echo ''
     echo "=============================================================================="

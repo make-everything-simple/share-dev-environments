@@ -34,7 +34,7 @@ storage:
 mongo_tools() {
   beginf
   echo 'MongoDB is a document database designed for ease of development and scaling. Host on Local'
-  echo '\u2460 MongoDB Standalone (Community | Enterprise) : is a hosted MongoDB service option in the local, On-premises whitch requires more operations from DevSecOps'
+  echo '\u2460 MongoDB Standalone (Community | Enterprise) : is a hosted MongoDB service option in the local, On-premises which requires more operations from DevSecOps'
   echo '\u2461 MongoDB Atlas: is a hosted MongoDB service option in the cloud which requires no installation overhead and offers a free tier to get started.'
   echo '\u2462 MongoDB Shell: is a modern command-line, the quickest way to connect, configure, query, and work with your MongoDB database. It is fully functioning JavaScript interpreter.'
   echo '\u2463 MongoDB Database Tools: are a collection of command-line utilities for working with a MongoDB deployment.'
@@ -80,7 +80,7 @@ mongo_setup() {
 mongo_terms() {
     beginf
     echo 'Daemon: is a computer program that runs as a background process, rather than an interactive user (ie: syslogd, sshd, mongod)'
-    echo 'Mongod: is the main deamon process for MongoDB'
+    echo 'Mongod: is the main daemon process for MongoDB'
     echo 'SRV Record: is a specification of data in the DNS defining the location, i.e., the hostname and port number, of servers for specified services'
     echo 'Connection String: is the defining connections between applications and MongoDB type $ mongo_cs for more detail'
     echo 'Document Databases: are both natural and flexible for developers to work with, Built around JSON-like documents'

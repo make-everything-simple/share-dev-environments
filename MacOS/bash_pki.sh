@@ -15,8 +15,8 @@ pki_tools() {
 pki_help() {
   beginf
   echo '$ pki_tools: list supported tools in this module'
-  echo '$ ssh_help: list all ultility commands supporting for SSH (Secure Shell)'
-  echo '$ gpg_help: list all ultility commands supporting for GPG (GNU Privacy Guard)'
+  echo '$ ssh_help: list all utility commands supporting for SSH (Secure Shell)'
+  echo '$ gpg_help: list all utility commands supporting for GPG (GNU Privacy Guard)'
   echo '$ check_sum [KEY_NAME]: get check_sum of a key'
   endf
 }
@@ -24,12 +24,12 @@ pki_help() {
 #==============================================#
 # SSH key connect without username or password
 # Base on PKI: more secure than https
-# port defaut: 22 change to 443(web https) when 
+# port default: 22 change to 443(web https) when 
 # firewalls refuse to allow SSH connections entirely.
 #==============================================#
 alias ssh_gen="ssh-keygen -t rsa -b 4096 -C $1"
 alias ssh_keys='ls -al ~/.ssh'
-alias ssh_edit_passprase='ssh-keygen -p'
+alias ssh_edit_passphrase='ssh-keygen -p'
 alias ssh_fingerprint="ssh-keygen -E md5 -lf $1"
 alias ssh_about="open 'https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh'"
 
@@ -67,7 +67,7 @@ ssh_help() {
     echo '$ ssh_keys: show list of ssh keys existed in your machine'
     echo '$ ssh_add_to_agent [KEY_NAME]: add KEY_NAME to sh-agent and store your passphrase in the keychain'
     echo '$ ssh_copy [KEY_NAME]: copy public key to add to github. Profile -> Settings -> SSH and GPG keys -> add new & paste content'
-    echo '$ ssh_edit_passprase: adding or changing a passphrase'
+    echo '$ ssh_edit_passphrase: adding or changing a passphrase'
     echo '$ ssh_fingerprint [KEY_NAME]: get Fingerprint of a private|public key'
     echo '$ ssh_about: get more information about ssh'
     endf

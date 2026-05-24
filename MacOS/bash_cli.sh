@@ -28,7 +28,7 @@ cli_register_info() {
   └── terraform
   "
   echo "After executing. Just verify your environment e.g $ terraform, mongo..."
-  echo "🔔 NOTE: Everytime you update or add new cli tools just re-execute the function $ cli_register 🔔"
+  echo "🔔 NOTE: Every time you update or add new cli tools just re-execute the function $ cli_register 🔔"
   echo "###############################################################################"
 }
 

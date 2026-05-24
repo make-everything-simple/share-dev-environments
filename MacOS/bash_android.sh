@@ -100,6 +100,6 @@ adb_help() {
   echo '$ adb_docs: open official Android documentation adb command-line'
   echo '$ logcat_docs: open official Android documentation logcat command-line'
   groupf
-  echo '$ adb_analytics_debug: enable debug view for firebase analytics by packagename or .none. to disable'
+  echo '$ adb_analytics_debug: enable debug view for firebase analytics by package name or .none. to disable'
   endf
 }

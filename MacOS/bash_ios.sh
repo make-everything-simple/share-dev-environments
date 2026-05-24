@@ -61,7 +61,7 @@ ios_help() {
 #   None
 # Arguments:
 #   SCHEME to build $SCHEME.xcscheme. Default is current directory name
-#   iOS_ONLE check to build iOS only or both iOS and MacOS. Default is both
+#   is_iOS_only check to build iOS only or both iOS and MacOS. Default is both
 # Outputs:
 #   Create a new file $SCHEME.xcframework
 #######################################
@@ -101,7 +101,7 @@ build_xcframework() {
     xcodebuild -create-xcframework -framework "$PWD/archives/$scheme_name.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-iphoneos.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-catalyst.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -output "$PWD/$scheme_name.xcframework"
   fi
 
-  # 3. Remove temporay folder to take the space back
+  # 3. Remove temporary folder to take the space back
   rm -rf "$PWD/archives"
   $endf
 }

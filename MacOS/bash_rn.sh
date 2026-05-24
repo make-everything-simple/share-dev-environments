@@ -30,7 +30,7 @@ rn_tools() {
 rn_setup() {
   beginf
   echo '$ install_nvm: node version manager'
-  echo '$ install_node [VERSION]: install node with sepecify VERSION $ nodes_remote check avaliable versions on remote'
+  echo '$ install_node [VERSION]: install node with specify VERSION $ nodes_remote check available versions on remote'
   echo '$ install_expo_cli: install expo cli to develop without setup Android and iOS until call $ expo eject'
   echo '$ install_react_native_cli: install React Native CLI required setup Android and iOS'
   echo '$ install_watchman: watching changes in the filesystem [Only required for React Native CLI]'
@@ -48,7 +48,7 @@ rn_help() {
     echo '$ node_use: specify a node version depends on each service/app'
     echo '$ rn_ios: run the app on default simulator iPhone X'
     echo '$ rn_ios_on_simulator [NAME]: run the app on a specific simulator'
-    echo '$ rn_android: run the app on luanched emulator|device'
+    echo '$ rn_android: run the app on launched emulator|device'
     echo '$ rn_android_on_emulator [NAME]: run the app on a specific emulator'
     echo 'Note: Android must start emulator before run the app, iOS can start simulator when launching the app automatically'
     endf
