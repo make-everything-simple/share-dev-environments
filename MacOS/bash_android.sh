@@ -44,20 +44,21 @@ alias app_signing="open 'https://developer.android.com/studio/publish/app-signin
 alias emulators="emulator -list-avds"
 
 start_emulator() {
-  emulator -avd $1
+  emulator -avd "$1"
 }
 
 # Google Pay Utility Commands
 gpay_help() {
   beginf
   echo 'You must connect to your device first via adb command-line: $ adb_help'
+  #shellcheck disable=2016
   echo '$ gpay_sandbox $is_enable: enable google pay sandbox mode or not'
-  echo '$ gpay_enable: enable Google Pay app for some device don’t have it.'
+  echo '$ gpay_enable: enable Google Pay app for some device do not have it.'
   endf
 }
 
 gpay_sandbox() {
-  if [ "$1" = "true" ]; then
+  if [[ "$1" = "true" ]]; then
     echo 'Enable Google Pay Sandbox Mode'
     adb -d shell touch /sdcard/Download/android_pay_env_override_sandbox
     adb -d reboot
@@ -74,14 +75,14 @@ gpay_enable() {
 
 # Android Debug Bridge Utility Commands to communicate with device
 alias start_server="adb start-server"
-alias listen_port="adb tcpip $1"
+alias listen_port="adb tcpip"
 alias stop_server="adb kill-server"
-alias connect_device="adb connect $1"
+alias connect_device="adb connect"
 alias devices='adb devices'
-alias adb_docs="open 'https://developer.android.com/studio/command-line/adb'"
-alias logcat_docs="open 'https://developer.android.com/studio/command-line/logcat'"
-alias connect_device11="open 'https://developer.android.com/studio/command-line/adb#connect-to-a-device-over-wi-fi-android-11+'"
-alias adb_analytics_debug="adb shell setprop debug.firebase.analytics.app $1"
+alias adb_docs="open 'https://developer.android.com/tools/adb'"
+alias logcat_docs="open 'https://developer.android.com/tools/logcat'"
+alias connect_device_wifi="open 'https://developer.android.com/tools/adb#connect-to-a-device-over-wi-fi'"
+alias adb_analytics_debug="adb shell setprop debug.firebase.analytics.app"
 
 adb_help() {
   beginf
@@ -89,7 +90,7 @@ adb_help() {
   echo '- MUST be the same wireless connection'
   echo "- Must be the same adb version: /usr/local/Cellar/android-sdk/version/platform-tools/adb the same ${ANDROID_SDK_ROOT}/platform-tools/adb"
   groupf
-  echo '$ connect_device11: guide for Android 11+ '
+  echo '$ connect_device_wifi: guide connect to a device over Wi-Fi for Android 11+'
   groupf
   echo 'Android 10 and lower: follow the following steps:'
   echo '\u2460 $ start_server: Ensure that there is a server running'
@@ -101,6 +102,6 @@ adb_help() {
   echo '$ adb_docs: open official Android documentation adb command-line'
   echo '$ logcat_docs: open official Android documentation logcat command-line'
   groupf
-  echo '$ adb_analytics_debug: enable debug view for firebase analytics by package name or .none. to disable'
+  echo '$ adb_analytics_debug [your_package_name]: enable debug view for firebase analytics by package name or .none. to disable'
   endf
 }

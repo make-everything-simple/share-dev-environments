@@ -13,7 +13,6 @@ Align development environment among machines | developers.
 - Common commands for CLI Tools in centralized management
 - Common commands for Android
 - Common commands for iOS
-- Common commands for React Native
 - Common commands for Public Key Infrastructure
   - Common commands for SSH (Secure Shell)
   - Common commands for GPG (GNU Privacy Guard) sign your commit or message
@@ -53,7 +52,6 @@ Align development environment among machines | developers.
 | CLI                        |   `cli_help`   |   `cli_tools`   |
 | Android                    | `android_help` | `android_tools` |
 | iOS                        |   `ios_help`   |   `ios_tools`   |
-| React Native               |   `rn_help`    |   `rn_tools`    |
 | Public Key Infrastructures |   `pki_help`   |   `pki_tools`   |
 | MongoDB                    |  `mongo_help`  |  `mongo_tools`  |
 

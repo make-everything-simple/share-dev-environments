@@ -5,13 +5,13 @@
 # Install mongodb tools
 #==============================================#
 alias mongo_local="open 'https://docs.mongodb.com/manual/installation'"
-alias mongo_cloud="open 'https://www.mongodb.com/cloud/atlas?tck=docs_vsce'"
-alias mongo_shell="open 'https://docs.mongodb.com/mongodb-shell/'"
-alias mongo_database_tools="open 'https://docs.mongodb.com/database-tools/'"
-alias mongo_cli="open 'https://docs.mongodb.com/mongocli/stable/'"
-alias mongo_compass="open 'https://docs.mongodb.com/compass/current/'"
-alias mongo_kubernetes_operators="open 'https://docs.mongodb.com/kubernetes-operator/stable/#'"
-alias mongo_cs="open 'https://docs.mongodb.com/manual/reference/connection-string/'"
+alias mongo_cloud="open 'https://www.mongodb.com/products/platform/atlas-database?tck=docs_vsce'"
+alias mongo_shell="open 'https://www.mongodb.com/docs/mongodb-shell/'"
+alias mongo_database_tools="open 'https://www.mongodb.com/docs/database-tools/'"
+alias mongo_cli="open 'https://www.mongodb.com/docs/mongocli/current/'"
+alias mongo_compass="open 'https://www.mongodb.com/docs/compass/'"
+alias mongo_kubernetes_operators="open 'https://www.mongodb.com/docs/kubernetes/current/reference-architectures/multi-cluster/deploy-operator/'"
+alias mongo_cs="open 'https://www.mongodb.com/docs/manual/reference/connection-string/'"
 alias mongo_conf="echo '...
 sharding:
   clusterRole: configsvr
@@ -52,8 +52,8 @@ mongo_setup() {
     (1) MongoDB Standalone, (2) MongoDB Atlas, (3) MongoDB Shell,
     (4) MongoDB Database Tools, (5) MongoDB CLI, (6) MongoDB Compass, 
     (7) MongoDB Kubernetes Operators, (0) More Info tools'
-    echo "Which tool do you want install: $supported_tools?"
-    read -p ">> input your tool 1|2|3|4|5|6|7: " name
+    echo "Which tool do you want install: ${supported_tools}?"
+    read -r -p ">> input your tool 1|2|3|4|5|6|7: " name
   
     # Process input from developer
     if [[ "${name}" = "1" ]]; then
@@ -73,7 +73,7 @@ mongo_setup() {
     elif [[ "${name}" = "0" ]]; then
         mongo_tools
     else
-        echo 'Your input must be $supported_tools'
+        echo "Your input must be ${supported_tools}"
     fi
     endf
 }

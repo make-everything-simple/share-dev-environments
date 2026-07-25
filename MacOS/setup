@@ -25,12 +25,11 @@ readonly SUPPORTED_MODULES='
 (a) Android,
 (i) iOS, 
 (p) Public key infrastructure includes ssh and gpg, 
-(rn) React Native,
 (m) MongoDB'
 
-readonly DEFAULT_MODULES='a,i,p,m,rn'
+readonly DEFAULT_MODULES='a,i,p,m'
 
-readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, rn]'
+readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo]'
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/main/MacOS'
 declare -a GUIDE_COMMANDS=()
 
@@ -134,19 +133,6 @@ if [[ "${modules_lowercase}" = *"m"* ]]; then
   # Add commands to simple function
   GUIDE_COMMANDS+=("echo '$ mongo_help: overview utility supported commands on MongoDB'")
   GUIDE_COMMANDS+=("echo '$ mongo_tools: overview common tools on MongoDB'")
-fi
-
-###############################################################################
-# React Native
-###############################################################################
-if [[ "${modules_lowercase}" = *"rn"* ]]; then
-  describe_start "rn (React Native)"
-  curl -o "${SHARE_DEV_HOME}/bash_rn ${REMOTE_LINK_MODULES}/bash_rn.sh"
-  echo "test -r ~/${SHARE_DIR_NAME}/bash_rn && source ~/${SHARE_DIR_NAME}/bash_rn" >> "${SHARE_DEV_HOME}/bash_active_dev"
-  
-  # Add commands to simple function
-  GUIDE_COMMANDS+=("echo '$ rn_help: overview utility supported commands on React Native'")
-  GUIDE_COMMANDS+=("echo '$ rn_tools: overview common tools on React Native'")
 fi
 
 ###############################################################################

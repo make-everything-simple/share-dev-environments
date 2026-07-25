@@ -9,7 +9,7 @@ alias install_xcode_cli='xcode-select --install'
 alias simulators='xcrun simctl list'
 alias install_pod="open 'https://cocoapods.org/'"
 alias install_carthage="open 'https://github.com/Carthage/Carthage#installing-carthage'"
-alias spm_install="open 'https://github.com/apple/swift-package-manager'"
+alias spm_install="open 'https://github.com/swiftlang/swift-package-manager'"
 
 ios_profiles() {
   open ~/Library/MobileDevice/Provisioning\ Profiles/
@@ -71,7 +71,7 @@ build_xcframework() {
   # https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
   local dir_name=${PWD##*/}
   if [[ -z "${1}" ]]; then
-    echo "build_xcframework $dir_name false"
+    echo "build_xcframework ${dir_name} false"
   else
     if [[ -z "${2}" ]]; then
       echo "build_xcframework $1 false"
@@ -79,32 +79,32 @@ build_xcframework() {
       echo "build_xcframework $1 $2"
     fi
   fi
-  local scheme_name=${1:=$dir_name}
+  local scheme_name=${1:=${dir_name}}
   local is_iOS_only=${2:=false}
 
   # 1. Remove existing xcframework bundle
-  test -d "$scheme_name.xcframework" && rm -rf "$PWD/$scheme_name.xcframework"
+  test -d "${scheme_name}.xcframework" && rm -rf "${PWD}/${scheme_name}.xcframework"
 
   # 2. Build all the supported architectures & create a XCFramework
   if [[ "${is_iOS_only}" == 'true' ]]; then
-    build_xcframework_ios $scheme_name
+    build_xcframework_ios "${scheme_name}"
   else
     ## Device slice.
-    xcodebuild clean archive -scheme "$scheme_name" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphoneos  -configuration Release -destination 'generic/platform=iOS' -archivePath "$PWD/archives/$scheme_name.framework-iphoneos.xcarchive" SKIP_INSTALL=NO
+    xcodebuild clean archive -scheme "${scheme_name}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphoneos  -configuration Release -destination 'generic/platform=iOS' -archivePath "${PWD}/archives/${scheme_name}.framework-iphoneos.xcarchive" SKIP_INSTALL=NO
 
     ## Simulator slice.
-    xcodebuild clean archive -scheme "$scheme_name" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "$PWD/archives/$scheme_name.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
+    xcodebuild clean archive -scheme "${scheme_name}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "${PWD}/archives/${scheme_name}.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
 
     ## Mac Catalyst slice.
-    xcodebuild clean archive -scheme "$scheme_name" -configuration Release -archivePath "$PWD/archives/$scheme_name.framework-catalyst.xcarchive" SKIP_INSTALL=NO
+    xcodebuild clean archive -scheme "${scheme_name}" -configuration Release -archivePath "${PWD}/archives/${scheme_name}.framework-catalyst.xcarchive" SKIP_INSTALL=NO
 
     # Create a XCFramework to combine all the supported architectures in a bundle
-    xcodebuild -create-xcframework -framework "$PWD/archives/$scheme_name.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-iphoneos.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -framework "$PWD/archives/$scheme_name.framework-catalyst.xcarchive/Products/Library/Frameworks/$scheme_name.framework" -output "$PWD/$scheme_name.xcframework"
+    xcodebuild -create-xcframework -framework "${PWD}/archives/${scheme_name}.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/${scheme_name}.framework" -framework "${PWD}/archives/${scheme_name}.framework-iphoneos.xcarchive/Products/Library/Frameworks/${scheme_name}.framework" -framework "${PWD}/archives/${scheme_name}.framework-catalyst.xcarchive/Products/Library/Frameworks/${scheme_name}.framework" -output "${PWD}/${scheme_name}.xcframework"
   fi
 
   # 3. Remove temporary folder to take the space back
-  rm -rf "$PWD/archives"
-  $endf
+  rm -rf "${PWD}/archives"
+  endf
 }
 
 #######################################
@@ -124,10 +124,10 @@ build_xcframework_ios() {
     xcodebuild clean archive -scheme "$1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphoneos  -configuration Release -destination 'generic/platform=iOS' -archivePath "$PWD/archives/$1.framework-iphoneos.xcarchive" SKIP_INSTALL=NO
 
     ## Simulator slice.
-    xcodebuild clean archive -scheme "$1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "$PWD/archives/$1.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
+    xcodebuild clean archive -scheme "$1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath "${PWD}/archives/$1.framework-iphonesimulator.xcarchive" SKIP_INSTALL=NO
 
     ## Create a XCFramework to combine all the supported architectures in a bundle
-    xcodebuild -create-xcframework -framework "$PWD/archives/$1.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$1.framework" -framework "$PWD/archives/$1.framework-iphoneos.xcarchive/Products/Library/Frameworks/$1.framework" -output "$PWD/$1.xcframework"
+    xcodebuild -create-xcframework -framework "${PWD}/archives/$1.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/$1.framework" -framework "${PWD}/archives/$1.framework-iphoneos.xcarchive/Products/Library/Frameworks/$1.framework" -output "${PWD}/$1.xcframework"
   fi
   endf
 }
