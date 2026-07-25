@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Utility commands for React Native Development.
 
 #==============================================#

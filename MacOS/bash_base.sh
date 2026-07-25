@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 #==============================================#
 # Make Icon
 #==============================================#
@@ -37,15 +38,15 @@ alias clear_cache='sudo purge'
 alias refresh='source ~/.bash_profile'
 alias myip='ifconfig en0'
 capitalize() {
-    echo $1 | awk '{print toupper(substr($0, 0, 1)) substr($0, 2)}'
+    echo "$1 | awk '{print toupper(substr($0, 0, 1)) substr($0, 2)}'"
 }
 
 uppercase() {
-    echo $1 | tr [:lower:] [:upper:]
+    echo "$1 | tr [:lower:] [:upper:]"
 }
 
 lowercase() {
-    echo $1 | tr [:upper:] [:lower:]
+    echo "$1 | tr [:upper:] [:lower:]"
 }
 
 ###############################################################################
@@ -99,9 +100,10 @@ base_register() {
 # info port, process
 #==============================================#
 pidport() {
- lsof -n -i4TCP:$1 | grep LISTEN
+ #shellcheck disable=2312
+ lsof -n -i4TCP:"$1" | grep LISTEN
 }
-alias pidkill="kill -9 $1"
+alias pidkill="kill -9"
 
 #==============================================#
 # install development tools
@@ -130,6 +132,7 @@ group_s() {
 }
 
 install_oh_my_zsh() {
+  # shellcheck disable=SC2312
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
@@ -147,19 +150,23 @@ base_tools() {
 base_setup() {
     beginf
     readonly supported_tools='(J) JDK, (S) SDKMAN, (N) Node Version Manager, (O) Oh My Zsh'
-    echo "Which tools do you want install $supported_tools?"
-    read name
+    echo "Which tools do you want install ${supported_tools}?"
+    read -r name
   
-    if [ "$(uppercase $name)" = "J" ]; then
-        install_jdk
-    elif [ "$(uppercase $name)" = "S" ]; then
+    # 1. Convert to uppercase once an d store the exit code safely
+    upper_name=$(uppercase "${name}")
+
+    # 2. Run the conditional checks against the variable
+    if [[ "${upper_name}" = "J" ]]; then
+      install_jdk
+    elif [[ "${upper_name}" = "S" ]]; then
         install_sdkman
-    elif [ "$(uppercase $name)" = "N" ]; then
+    elif [[ "${upper_name}" = "N" ]]; then
         install_nvm
-    elif [ "$(uppercase $name)" = "O" ]; then
+    elif [[ "${upper_name}" = "O" ]]; then
         install_oh_my_zsh
     else
-        echo 'Your input must belongs to $supported_tools'
+        echo "Your input must belongs to ${supported_tools}"
     fi
     endf
 }

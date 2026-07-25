@@ -48,33 +48,36 @@ cli_register() {
   # 1. Create local Environment variables
   local custom_cli_file_name=environment_custom_cli
   local SHARE_DIR_NAME=".share-dev-environments"
-  local SHARE_DEV_HOME=$HOME/$SHARE_DIR_NAME
+  local SHARE_DEV_HOME=${HOME}/${SHARE_DIR_NAME}
   local CLI_HOME="/Applications/CommandLine"
   echo -n '>> Enter your custom commandline path: '
-  read cli_path
+  read -r cli_path
   if [[ -n "${cli_path}" ]]; then
     CLI_HOME="${cli_path}"
   fi
   echo "Your CLI_HOME: ${CLI_HOME}"
 
   # 2. Create 1 file content this custom module: $custom_cli_file_name
-  touch $SHARE_DEV_HOME/$custom_cli_file_name
-  echo "export CLI_HOME=$CLI_HOME" > $SHARE_DEV_HOME/$custom_cli_file_name
-  echo 'export PATH=$PATH:$CLI_HOME' >> $SHARE_DEV_HOME/$custom_cli_file_name
+  touch "${SHARE_DEV_HOME}/${custom_cli_file_name}"
+  echo "export CLI_HOME=${CLI_HOME}" > "${SHARE_DEV_HOME}/${custom_cli_file_name}"
+    # shellcheck disable=SC2016
+  echo 'export PATH=$PATH:$CLI_HOME' >> "${SHARE_DEV_HOME}/${custom_cli_file_name}"
   # 3. Register reload for the $custom_cli_file_name to bash_active_dev
-  if [[ -r ~/$SHARE_DIR_NAME/bash_active_dev ]]; then
-    local register_entry="test -r ~/$SHARE_DIR_NAME/$custom_cli_file_name && source ~/$SHARE_DIR_NAME/$custom_cli_file_name"
-    local content_base_active_dev=$(cat $SHARE_DEV_HOME/bash_active_dev)
-    if [[ ! "${content_base_active_dev}" =~ "${register_entry}" ]]; then
+  if [[ -r ~/${SHARE_DIR_NAME}/bash_active_dev ]]; then
+    local register_entry="test -r ~/${SHARE_DIR_NAME}/${custom_cli_file_name} && source ~/${SHARE_DIR_NAME}/${custom_cli_file_name}"
+    local content_base_active_dev
+    content_base_active_dev=$(cat "${SHARE_DEV_HOME}/bash_active_dev")
+    if [[ ! "${content_base_active_dev}" =~ ${register_entry} ]]; then
       # Write append head to the file if need
-      echo -e "$register_entry\n$(cat ~/$SHARE_DIR_NAME/bash_active_dev)" > ~/$SHARE_DIR_NAME/bash_active_dev
+      echo -e "${register_entry}\n$(cat "${SHARE_DEV_HOME}/bash_active_dev" || true)" > "${SHARE_DEV_HOME}/bash_active_dev"
     fi
   fi
   # 4. Read all directories of custom commandline
   # local item_list=
   # echo $item_list
-  declare -a features=($(ls $CLI_HOME))
-  echo $features
+  declare -a features
+  mapfile -t features < <(ls "${CLI_HOME}" || true)
+  printf '%s\n' "${features[@]}"
   count=0
   # Add parameter expansion to let system handle evaluation when running
   # https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
@@ -82,13 +85,13 @@ cli_register() {
   for item in "${features[@]}"; do 
       # 5: Write export PATH to the file $custom_cli_file_name
       ((count += 1))
-      echo "...$count $item"
-      if [[ -d "$CLI_HOME/$item/bin" ]]; then
-          group $item  >> $SHARE_DEV_HOME/$custom_cli_file_name
-          echo "export PATH=${parameter_expansion}PATH:${parameter_expansion}CLI_HOME/$item/bin" >> $SHARE_DEV_HOME/$custom_cli_file_name
-      elif [[ -d "$CLI_HOME/$item" ]]; then
-        group $item  >> $SHARE_DEV_HOME/$custom_cli_file_name
-        echo "export PATH=${parameter_expansion}PATH:${parameter_expansion}CLI_HOME/$item" >> $SHARE_DEV_HOME/$custom_cli_file_name
+      echo "...${count} ${item}"
+      if [[ -d "${CLI_HOME}/${item}/bin" ]]; then
+          group "${item}"  >> "${SHARE_DEV_HOME}/${custom_cli_file_name}"
+          echo "export PATH=${parameter_expansion}PATH:${parameter_expansion}CLI_HOME/${item}/bin" >> "${SHARE_DEV_HOME}/${custom_cli_file_name}"
+      elif [[ -d "${CLI_HOME}/${item}" ]]; then
+        group "${item}"  >> "${SHARE_DEV_HOME}/${custom_cli_file_name}"
+        echo "export PATH=${parameter_expansion}PATH:${parameter_expansion}CLI_HOME/${item}" >> "${SHARE_DEV_HOME}/${custom_cli_file_name}"
       fi
   done
   # 6: Display the command to refresh the environment to take effect immediately

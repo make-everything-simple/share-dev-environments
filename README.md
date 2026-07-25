@@ -27,19 +27,19 @@ Align development environment among machines | developers.
 
 ## How to setup
 
-1. Download the setup run script: `curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/master/MacOS/setup`
+1. Download the setup run script: `curl -O https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/main/MacOS/setup`
 2. Grant the execute permission to the script: `chmod +x ./setup`
 3. Execute the script: `./setup`
 4. Config bash use with terminal
    - Run the command for each new session `exec bash`
    - Config once as the following:
-     - Terminal's command default: ![bash as default](./MacOS/docs/set-shell-default-bash.png)
-     - Terminal's startup command: ![startup command](./MacOS/docs/startup-command.png)
+     - Terminal's command default: ![bash as default](./MacOS/arts/set-shell-default-bash.png)
+     - Terminal's startup command: ![startup command](./MacOS/arts/startup-command.png)
 
 `Noted`:
 
 - This script needs the admin permission to execute.
-- Make sure file `$HOME/.bash_profile` already existed before we execute. If It does not exist just create `touch $HOME/.bash_profile` and make sure permission `-rw-r--r--` to file. Run the command `chmod 644 $HOME/.bash_profile` if it does not sastify permission
+- Make sure file `$HOME/.bash_profile` already existed before we execute. If It does not exist just create `touch $HOME/.bash_profile` and make sure permission `-rw-r--r--` to file. Run the command `chmod 644 $HOME/.bash_profile` if it does not satisfy permission
 
 ## How to use
 
@@ -55,7 +55,8 @@ Align development environment among machines | developers.
 | iOS                        |   `ios_help`   |   `ios_tools`   |
 | React Native               |   `rn_help`    |   `rn_tools`    |
 | Public Key Infrastructures |   `pki_help`   |   `pki_tools`   |
-| MongoDB                    |  `mongo_help`  |  `mongo_tools`
+| MongoDB                    |  `mongo_help`  |  `mongo_tools`  |
+
 - `$ simple`: entry command for all supported commands
 
 ## Contributors

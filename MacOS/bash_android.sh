@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Utility commands for Android Development.
 
 #==============================================#
@@ -32,7 +33,7 @@ android_help() {
   echo '$ android_tools: check required tools for Android development'
   echo '$ android_setup: setup required development tools'
   echo '$ emulators: show list android emulators'
-  echo '$ start_emulator $emulator_name: launch a specific emulator'
+  echo '$ start_emulator emulator_name: launch a specific emulator'
   echo '$ adb_help: show utility commands of adb command-line tool'
   echo '$ gpay_help: show list commands for Google Pay'
   echo '$ app_signing: Security your application'
@@ -86,7 +87,7 @@ adb_help() {
   beginf
   echo 'Connect to a device over Wi-Fi'
   echo '- MUST be the same wireless connection'
-  echo "- Must be the same adb version: /usr/local/Cellar/android-sdk/version/platform-tools/adb the same $ANDROID_SDK_ROOT/platform-tools/adb"
+  echo "- Must be the same adb version: /usr/local/Cellar/android-sdk/version/platform-tools/adb the same ${ANDROID_SDK_ROOT}/platform-tools/adb"
   groupf
   echo '$ connect_device11: guide for Android 11+ '
   groupf
