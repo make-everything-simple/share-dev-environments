@@ -26,11 +26,12 @@ readonly SUPPORTED_MODULES='
 (i) iOS, 
 (p) Public key infrastructure includes ssh and gpg, 
 (m) MongoDB,
-(g) Google Cloud Platform'
+(g) Google Cloud Platform,
+(aws) Amazon Web Services'
 
-readonly DEFAULT_MODULES='a,i,p,m,g'
+readonly DEFAULT_MODULES='a,i,p,m,g,aws'
 
-readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo,gcloud]'
+readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, gcloud, aws]'
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/main/MacOS'
 declare -a GUIDE_COMMANDS=()
 
@@ -147,6 +148,19 @@ if [[ "${modules_lowercase}" = *"g"* ]]; then
   # Add commands to simple function
   GUIDE_COMMANDS+=("echo '$ gcloud_help: overview utility supported commands on Google Cloud'")
   GUIDE_COMMANDS+=("echo '$ gcloud_tools: overview common tools on Google Cloud'")
+fi
+
+###############################################################################
+# AWS
+###############################################################################
+if [[ "${modules_lowercase}" = *"aws"* ]]; then
+  describe_start "aws (Amazon Web Services)"
+  curl -o "${SHARE_DEV_HOME}/bash_aws" "${REMOTE_LINK_MODULES}/bash_aws.sh"
+  echo "test -r ~/${SHARE_DIR_NAME}/bash_aws && source ~/${SHARE_DIR_NAME}/bash_aws" >> "${SHARE_DEV_HOME}/bash_active_dev"
+
+  # Add commands to simple function
+  GUIDE_COMMANDS+=("echo '$ aws_help: overview utility supported commands on Amazon Web Services'")
+  GUIDE_COMMANDS+=("echo '$ aws_tools: overview common tools on Amazon Web Services'")
 fi
 
 ###############################################################################
