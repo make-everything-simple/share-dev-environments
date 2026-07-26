@@ -17,6 +17,7 @@ Align development environment among machines | developers.
   - Common commands for SSH (Secure Shell)
   - Common commands for GPG (GNU Privacy Guard) sign your commit or message
 - Common commands for MongoDB
+- Common commands for Google Cloud Platform
 
 ## OS support
 
@@ -54,6 +55,7 @@ Align development environment among machines | developers.
 | iOS                        |   `ios_help`   |   `ios_tools`   |
 | Public Key Infrastructures |   `pki_help`   |   `pki_tools`   |
 | MongoDB                    |  `mongo_help`  |  `mongo_tools`  |
+| Google Cloud               | `gcloud_help`  | `gcloud_tools`  |
 
 - `$ simple`: entry command for all supported commands
 
