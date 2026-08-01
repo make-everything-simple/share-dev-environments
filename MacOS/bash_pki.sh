@@ -58,7 +58,11 @@ ssh_copy() {
 ssh_add_to_agent() {
     beginf
     eval "$(ssh-agent -s)"
-    ssh-add -K ~/.ssh/$1
+    if ssh-add -h 2>&1 | grep -q -- '--apple-use-keychain'; then
+      ssh-add --apple-use-keychain ~/.ssh/$1
+    else
+      ssh-add -K ~/.ssh/$1
+    fi
     endf
 }
 
