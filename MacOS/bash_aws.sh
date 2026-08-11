@@ -17,15 +17,31 @@ aws_tools() {
   endf
 }
 
-aws_show_config() {
+aws_profile_view() {
   if command -v aws >/dev/null 2>&1; then
-    aws configure list --profile default 2>/dev/null || aws configure list 2>/dev/null || true
+    if [[ -n "$1" ]]; then
+        echo "Here is the info of profile $1"
+        aws configure list --profile "$1" 2>/dev/null
+      else
+        echo 'Usage: aws_profile_show PROFILE_NAME'
+      fi
   else
     echo 'AWS CLI is not installed yet. Run aws_setup or visit the docs.'
   fi
 }
 
-aws_show_profiles() {
+aws_profile_active() {
+  if command -v aws >/dev/null 2>&1; then
+    # prefer explicit AWS_PROFILE env var, fall back to 'default'
+    local profile
+    profile="${AWS_PROFILE:-default}"
+    echo "${profile}"
+  else
+    echo 'AWS CLI is not installed yet. Run aws_setup or visit the docs.'
+  fi
+}
+
+aws_profile_list() {
   if command -v aws >/dev/null 2>&1; then
     aws configure list-profiles 2>/dev/null || true
   else
@@ -33,13 +49,13 @@ aws_show_profiles() {
   fi
 }
 
-aws_switch_profile() {
+aws_profile_switch() {
   if command -v aws >/dev/null 2>&1; then
     if [[ -n "$1" ]]; then
       export AWS_PROFILE="$1"
       echo "Switched active AWS profile to $1"
     else
-      echo 'Usage: aws_switch_profile PROFILE_NAME'
+      echo 'Usage: aws_profile_switch PROFILE_NAME'
     fi
   else
     echo 'AWS CLI is not installed yet. Run aws_setup or visit the docs.'
@@ -68,10 +84,10 @@ aws_setup() {
       aws_login
       ;;
     3)
-      aws_show_config
+      aws_profile_active
       ;;
     4)
-      aws_show_profiles
+      aws_profile_list
       ;;
     0)
       aws_tools
@@ -88,9 +104,10 @@ aws_help() {
   echo '$ aws_tools: overview common AWS tools'
   echo '$ aws_setup: guide to install or configure AWS tools'
   echo '$ aws_login: authenticate or configure AWS CLI access'
-  echo '$ aws_show_config: show the current AWS CLI configuration context'
-  echo '$ aws_show_profiles: list available AWS CLI profiles'
-  echo '$ aws_switch_profile PROFILE_NAME: switch the active AWS profile'
+  echo '$ aws_profile_active: show the current active AWS profile'
+  echo '$ aws_profile_list: list available AWS CLI profiles'
+  echo '$ aws_profile_switch PROFILE_NAME: switch the active AWS profile'
+  echo '$ aws_profile_view PROFILE_NAME: view the profile info'
   echo '$ aws_docs: open the AWS CLI installation docs'
   endf
 }
