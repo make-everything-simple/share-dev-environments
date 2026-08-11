@@ -36,34 +36,71 @@ gcloud_auth() {
   fi
 }
 
-gcloud_show_config() {
-  if command -v gcloud >/dev/null 2>&1; then
-    gcloud config configurations list
-  else
-    echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
-  fi
-}
-
-gcloud_switch_project() {
+gcloud_adc() {
   if command -v gcloud >/dev/null 2>&1; then
     if [[ -n "$1" ]]; then
-      gcloud config set project "$1"
-      echo "Switched active project to $1"
+      gcloud auth application-default login --impersonate-service-account="$1"
+      echo "Logged in using ADC with impersonation service account $1"
     else
-      echo 'Usage: gcloud_switch_project PROJECT_ID'
+      gcloud auth application-default login
+      echo 'Logged in using ADC'
     fi
   else
     echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
   fi
 }
 
-gcloud_activate_config() {
+gcloud_config_list() {
+  if command -v gcloud >/dev/null 2>&1; then
+    echo 'Here is your configurations'
+    gcloud config configurations list
+  else
+    echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
+  fi
+}
+
+gcloud_config_add() {
+  if command -v gcloud >/dev/null 2>&1; then
+    if [[ -n "$1" ]]; then
+      gcloud config configurations create "$1"
+      echo "The new configuration $1 has just been created"
+    else
+      echo 'Usage: gcloud_config_add CONFIG_NAME'
+    fi
+  else
+    echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
+  fi
+}
+
+gcloud_project_list() {
+  if command -v gcloud >/dev/null 2>&1; then
+    echo 'Here is your projects'
+    gcloud projects list
+  else
+    echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
+  fi
+}
+
+gcloud_project_switch() {
+  if command -v gcloud >/dev/null 2>&1; then
+    if [[ -n "$1" ]]; then
+      gcloud config set project "$1"
+      echo "Switched active project to $1"
+    else
+      echo 'Usage: gcloud_project_switch PROJECT_ID'
+    fi
+  else
+    echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
+  fi
+}
+
+gcloud_config_activate() {
   if command -v gcloud >/dev/null 2>&1; then
     if [[ -n "$1" ]]; then
       gcloud config configurations activate "$1"
       echo "Activated gcloud configuration: $1"
     else
-      echo 'Usage: gcloud_activate_config CONFIG_NAME'
+      echo 'Usage: gcloud_config_activate CONFIG_NAME'
     fi
   else
     echo 'gcloud CLI is not installed yet. Run gcloud_setup or visit the docs.'
@@ -109,9 +146,12 @@ gcloud_help() {
   echo '$ gcloud_tools: overview common Google Cloud tools'
   echo '$ gcloud_setup: guide to install or configure Google Cloud tools'
   echo '$ gcloud_auth: authenticate with the gcloud CLI'
-  echo '$ gcloud_show_config: list all named gcloud configurations'
-  echo '$ gcloud_switch_project PROJECT_ID: switch the active GCP project'
-  echo '$ gcloud_activate_config CONFIG_NAME: activate a named gcloud configuration that can hold both project and account'
+  echo '$ gcloud_adc [SERVICE_ACCOUNT_EMAIL]: authenticate as a service account. Pass the SERVICE_ACCOUNT_EMAIL to impersonate' 
+  echo '$ gcloud_config_add CONFIG_NAME: add a new configuration'
+  echo '$ gcloud_project_list: list all projects of your active account'
+  echo '$ gcloud_project_switch PROJECT_ID: switch the active GCP project'
+  echo '$ gcloud_config_list: list all named gcloud configurations'
+  echo '$ gcloud_config_activate CONFIG_NAME: activate a named gcloud configuration that can hold both project and account'
   echo '$ gcloud_kubectl: install kubectl support through gcloud'
   echo '$ gcloud_storage [ARGS]: run gcloud storage commands (recommended over gsutil)'
   echo '$ gcloud_docs: open the Google Cloud SDK installation docs'
