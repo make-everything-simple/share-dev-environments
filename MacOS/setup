@@ -27,11 +27,12 @@ readonly SUPPORTED_MODULES='
 (p) Public key infrastructure includes ssh and gpg, 
 (m) MongoDB,
 (g) Google Cloud Platform,
-(aws) Amazon Web Services'
+(aws) Amazon Web Services,
+(az) Microsoft Azure'
 
-readonly DEFAULT_MODULES='a,i,p,m,g,aws'
+readonly DEFAULT_MODULES='a,i,p,m,g,aws,az'
 
-readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, gcloud, aws]'
+readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, gcloud, aws, azure]'
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/main/MacOS'
 declare -a GUIDE_COMMANDS=()
 
@@ -161,6 +162,19 @@ if [[ "${modules_lowercase}" = *"aws"* ]]; then
   # Add commands to simple function
   GUIDE_COMMANDS+=("echo '$ aws_help: overview utility supported commands on Amazon Web Services'")
   GUIDE_COMMANDS+=("echo '$ aws_tools: overview common tools on Amazon Web Services'")
+fi
+
+###############################################################################
+# Azure
+###############################################################################
+if [[ "${modules_lowercase}" = *"az"* ]] || [[ "${modules_lowercase}" = *"azure"* ]]; then
+  describe_start "az (Microsoft Azure)"
+  curl -o "${SHARE_DEV_HOME}/bash_azure" "${REMOTE_LINK_MODULES}/bash_azure.sh"
+  echo "test -r ~/${SHARE_DIR_NAME}/bash_azure && source ~/${SHARE_DIR_NAME}/bash_azure" >> "${SHARE_DEV_HOME}/bash_active_dev"
+
+  # Add commands to simple function
+  GUIDE_COMMANDS+=("echo '$ azure_help: overview utility supported commands on Microsoft Azure'")
+  GUIDE_COMMANDS+=("echo '$ azure_tools: overview common tools on Microsoft Azure'")
 fi
 
 ###############################################################################

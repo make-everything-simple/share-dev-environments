@@ -19,6 +19,7 @@ Align development environment among machines | developers.
 - Common commands for MongoDB
 - Common commands for Google Cloud Platform
 - Common commands for Amazon Web Services
+- Common commands for Microsoft Azure
 
 ## OS support
 
@@ -57,7 +58,8 @@ Align development environment among machines | developers.
 | Public Key Infrastructures |   `pki_help`   |   `pki_tools`   |
 | MongoDB                    |  `mongo_help`  |  `mongo_tools`  |
 | Google Cloud               | `gcloud_help`  | `gcloud_tools`  |
-| Amazon Web Services        | `aws_help`     | `aws_tools`     |
+| Amazon Web Services        |   `aws_help`   |   `aws_tools`   |
+| Microsoft Azure            |  `azure_help`  |  `azure_tools`  |
 
 - `$ simple`: entry command for all supported commands
 
