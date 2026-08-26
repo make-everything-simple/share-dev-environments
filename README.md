@@ -49,17 +49,18 @@ Align development environment among machines | developers.
   - `$module_help`: overview utility supported commands on this module
   - `$module_tools`: overview common tools on this module
 
-| Module                     |      Help      |      Tools      |
-| -------------------------- | :------------: | :-------------: |
-| Base                       |  `base_help`   |  `base_tools`   |
-| CLI                        |   `cli_help`   |   `cli_tools`   |
-| Android                    | `android_help` | `android_tools` |
-| iOS                        |   `ios_help`   |   `ios_tools`   |
-| Public Key Infrastructures |   `pki_help`   |   `pki_tools`   |
-| MongoDB                    |  `mongo_help`  |  `mongo_tools`  |
-| Google Cloud               | `gcloud_help`  | `gcloud_tools`  |
-| Amazon Web Services        |   `aws_help`   |   `aws_tools`   |
-| Microsoft Azure            |  `azure_help`  |  `azure_tools`  |
+| Module                     |      Help       |      Tools       |
+| -------------------------- | :-------------: | :--------------: |
+| Base                       |   `base_help`   |   `base_tools`   |
+| CLI                        |   `cli_help`    |   `cli_tools`    |
+| Android                    | `android_help`  | `android_tools`  |
+| iOS                        |   `ios_help`    |   `ios_tools`    |
+| Public Key Infrastructures |   `pki_help`    |   `pki_tools`    |
+| MongoDB                    |  `mongo_help`   |  `mongo_tools`   |
+| Google Cloud               |  `gcloud_help`  |  `gcloud_tools`  |
+| Amazon Web Services        |   `aws_help`    |   `aws_tools`    |
+| Microsoft Azure            |  `azure_help`   |  `azure_tools`   |
+| CI Local                   | `ci_local_help` | `ci_local_tools` |
 
 - `$ simple`: entry command for all supported commands
 

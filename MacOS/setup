@@ -30,9 +30,19 @@ readonly SUPPORTED_MODULES='
 (aws) Amazon Web Services,
 (az) Microsoft Azure'
 
-readonly DEFAULT_MODULES='a,i,p,m,g,aws,az'
+readonly SUPPORTED_MODULES='
+(a) Android,
+(i) iOS, 
+(p) Public key infrastructure includes ssh and gpg, 
+(m) MongoDB,
+(g) Google Cloud Platform,
+(aws) Amazon Web Services,
+(az) Microsoft Azure,
+(c) CI Local (run CI jobs locally via act or gitlab-ci-local)'
 
-readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, gcloud, aws, azure]'
+readonly DEFAULT_MODULES='a,i,p,m,g,aws,az,c'
+
+readonly LIST_SUPPORTED_MODULES='[android, ios, pki, mongo, gcloud, aws, azure, ci_local]'
 readonly REMOTE_LINK_MODULES='https://raw.githubusercontent.com/make-everything-simple/share-dev-environments/main/MacOS'
 declare -a GUIDE_COMMANDS=()
 
@@ -187,6 +197,20 @@ echo "test -r ~/${SHARE_DIR_NAME}/bash_cli && source ~/${SHARE_DIR_NAME}/bash_cl
 # Add commands to simple function
 GUIDE_COMMANDS+=("echo '$ cli_help: overview utility supported commands on CLI'")
 GUIDE_COMMANDS+=("echo '$ cli_tools: overview common tools on CLI'")
+
+###############################################################################
+# CI Local
+###############################################################################
+if [[ "${modules_lowercase}" = *"c"* ]]; then
+  describe_start "ci_local (CI Local)"
+  curl -o "${SHARE_DEV_HOME}/bash_ci_local" "${REMOTE_LINK_MODULES}/bash_ci_local.sh"
+  echo "test -r ~/${SHARE_DIR_NAME}/bash_ci_local && source ~/${SHARE_DIR_NAME}/bash_ci_local" >> "${SHARE_DEV_HOME}/bash_active_dev"
+  
+  # Add commands to simple function
+  GUIDE_COMMANDS+=("echo '$ ci_local_help: overview utility supported commands on CI Local'")
+  GUIDE_COMMANDS+=("echo '$ ci_local_tools: overview common tools on CI Local'")
+fi
+
 
 # Create a function simple as an entry point
 create_simple() {
