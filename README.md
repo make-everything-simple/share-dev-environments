@@ -20,6 +20,7 @@ Align development environment among machines | developers.
 - Common commands for Google Cloud Platform
 - Common commands for Amazon Web Services
 - Common commands for Microsoft Azure
+- Common commands for Grafana k6 performance testing
 
 ## OS support
 
@@ -60,6 +61,7 @@ Align development environment among machines | developers.
 | Google Cloud               |  `gcloud_help`  |  `gcloud_tools`  |
 | Amazon Web Services        |   `aws_help`    |   `aws_tools`    |
 | Microsoft Azure            |  `azure_help`   |  `azure_tools`   |
+| Grafana k6                 |    `k6_help`    |    `k6_tools`    |
 | CI Local                   | `ci_local_help` | `ci_local_tools` |
 
 - `$ simple`: entry command for all supported commands
