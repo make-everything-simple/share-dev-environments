@@ -96,6 +96,41 @@ base_register() {
 
 }
 
+###############################################################################
+# Create symbolic links for the immediate child folders in a source folder.
+# Globals:
+#   None
+# Arguments:
+#   source_folder folder containing the child folders to link
+#   destination_folder folder where the symbolic links are created
+###############################################################################
+create_symbolic_links() {
+  local source_folder=${1:-}
+  local destination_folder=${2:-}
+
+  if [[ -z "${source_folder}" || -z "${destination_folder}" ]]; then
+    echo "Usage: create_symbolic_links [SOURCE_FOLDER] [DESTINATION_FOLDER]" >&2
+    return 1
+  fi
+
+  if [[ ! -d "${source_folder}" ]]; then
+    echo "Source folder does not exist: ${source_folder}" >&2
+    return 1
+  fi
+
+  source_folder=$(cd "${source_folder}" && pwd -P) || return 1
+  mkdir -p "${destination_folder}" || return 1
+  destination_folder=$(cd "${destination_folder}" && pwd -P) || return 1
+
+  local child_folder
+  local link_path
+  for child_folder in "${source_folder}"/*/; do
+    [[ -d "${child_folder}" ]] || continue
+    link_path="${destination_folder}/$(basename "${child_folder%/}")"
+    ln -sfn "${child_folder%/}" "${link_path}" || return 1
+  done
+}
+
 #==============================================#
 # info port, process
 #==============================================#
@@ -175,6 +210,7 @@ base_help() {
     beginf
     echo '$ base_tools: check required development tools on macOS'
     echo '$ base_register: register your reusable function from your custom module'
+    echo '$ create_symbolic_links [SOURCE_FOLDER] [DESTINATION_FOLDER]: link child folders from source to destination'
     echo '$ base_setup: setup required development tools'
     echo '$ pidport [PORT]: get process ids run on specific port'
     echo '$ pidkill [PROCESS_ID]: kill a process base on id'
